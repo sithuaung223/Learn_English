@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<div id="main_panel">
+	<canvas id="move_left" width="200" height="100" style="border:1px solid #000000;"> </canvas>
+	<canvas id="move_right" width="200" height="100" style="border:1px solid #000000;">  </canvas>
+	<canvas id="back" width="200" height="100" style="border:1px solid #000000;">  </canvas>
+</div>
+
+<script>
+
+<!--Functions-->
+function createCanvas(c_word, c_meaning, i) {
+	moveKeyDisplayHandler(i);	
+	var c = document.createElement("canvas");
+	c.id = "mycanvas";
+	c.name = i;
+	c.width = 300;
+	c.height = 500;
+	c.style.border = '1px solid #d3d3d3';
+	c.onclick = function(){clickCanvas(c,c_word, c_meaning, i)};
+
+	addLabelToCanvas(c, c_word);
+	var panel = document.getElementById("main_panel");
+	panel.insertBefore(c, panel.childNodes[2]);
+	return c;
+}
+
+
+function deleteCanvas(e) {
+	e.parentNode.removeChild(e);
+}
+
+
+function clickCanvas(e,e_word, e_meaning, i) {
+	deleteCanvas(e);
+	createCanvas(e_meaning, e_word, i);
+}
+
+
+function addLabelToCanvas(e, label) {
+	var ctx = e.getContext("2d");
+	ctx.textAlign = "center";
+	ctx.fillText(label, e.width/2, e.height/2);
+}
+
+
+function clickMove(move) {
+	if (move == "back") {
+		window.location= './main.html';
+	}
+
+	var new_c;
+	var c = document.getElementById("mycanvas");
+	console.log(i);
+	deleteCanvas(c);
+
+	var i = c.name;
+	var c_word = "N/A";
+	var c_meaning = "Out of Index";
+	if (move == "left") {
+		i = i-1;
+	}else if (move == "right") {
+		i = i+1;
+	}
+
+	c_word = word_arr[i];
+	c_meaning = meaning_arr[c_word];
+	new_c = createCanvas(c_word, c_meaning, i);
+}
+
+
+function moveKeyDisplayHandler(i) {
+	var left = document.getElementById("move_left");
+	var right = document.getElementById("move_right");
+	var back = document.getElementById("back");
+
+	back.style.display = "none";
+	if (i == 0) {
+		left.style.display = "none";
+	} 
+	else if (i == word_arr.length-1) {
+		right.style.display = "none";
+		back.style.display = "";
+	} 
+	else {
+		left.style.display = "";
+		right.style.display = "";
+	}
+}
+
+function getParamFromURL(param) {
+	var url_string = window.location.href;
+	var url = new URL(url_string);
+	var value = url.searchParams.get(param);
+	return value;
+}
+
+<!--Begin-->
+
+var value = getParamFromURL("category");
+var word_arr = [];
+var meaning_arr = {};
+
+if (value === "animals") {
+	word_arr = ['Dog', 'Cat', 'Horse'];
+	meaning_arr = {'Dog':'Friend/Pet', 'Cat':'Annoying Animal', 'Horse':'runing Animal'};
+}
+else if (value === "vehicles") {
+	word_arr = ['Car', 'Bike', 'Train'];
+	meaning_arr = {'Car':'Vehicle with engine and 4 wheels', 'Bike':'Vehicle with paddle and two wheels', 'Train':'Vehicles with steam-engine, multiple wheels and blocks-chain'};
+}
+else if (value === "actions") {
+	word_arr = ['Walk', 'Speak', 'Run'];
+	meaning_arr = {'Walk':'Moving body with legs', 'Speak':'Moving mouth, tongue and lips to make sound', 'Run':'Moving body fast with legs'};
+}
+
+createCanvas(word_arr[0], meaning_arr[word_arr[0]], 0);
+
+var left = document.getElementById("move_left");
+addLabelToCanvas(left, "<< Prev");
+left.onclick = function() {clickMove("left")};
+
+var right = document.getElementById("move_right");
+addLabelToCanvas(right, "Next >>");
+right.onclick = function() {clickMove("right")};
+
+var back = document.getElementById("back");
+addLabelToCanvas(back, "Back To Main Page");
+back.onclick = function() {clickMove("back")};
+</script> 
+
+</body>
+</html>
+
