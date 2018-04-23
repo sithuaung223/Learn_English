@@ -36,16 +36,10 @@ function createCanvasWithText(doc, id, text) {
 }
 
 function createCanvasWithCard(doc, card) {
-	var canvas = createCanvasWithText(document, card.id, card.word);
+	var canvas = createCanvasWithText(document, card.flip, card.word[card.flip]);
 	canvas.onclick = function() {
-		if (card.flip == 0) {
-			rewriteTextToCanvas(canvas, card.meaning);
-			card.flip = 1;
-		}
-		else {
-			rewriteTextToCanvas(canvas, card.word);
-			card.flip = 0;
-		}
+		card.flip = Math.abs(card.flip - 1);
+		rewriteTextToCanvas(canvas, card.word[card.flip]);
 	}
 	return canvas;
 }

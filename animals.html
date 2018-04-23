@@ -93,11 +93,9 @@ function main(){
 
 	var card = {
 		id: 0,
-		word: 'card',
-		meaning: 'card meaning',
-		flip: 0,
+		word: ['card', 'card_meaning'],
+		flip: 0
 	};
-
 	var canvas = createCanvasWithCard(document, card);
 
 	var prev_btn = createButton(document, 'prev');
