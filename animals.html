@@ -1,19 +1,13 @@
 <!DOCTYPE html>
 <html>
 <body>
-
-<div id="main_panel">
-	<canvas id="move_left" width="200" height="100" style="border:1px solid #000000;"> </canvas>
-	<canvas id="move_right" width="200" height="100" style="border:1px solid #000000;">  </canvas>
-	<canvas id="back" width="200" height="100" style="border:1px solid #000000;">  </canvas>
-</div>
+<script type="text/javascript" src="temp.json"></script>
+<script src="canvas.js"></script>
 
 <script>
-
-<!--Functions-->
 function createCanvas(c_word, c_meaning, i) {
 	moveKeyDisplayHandler(i);	
-	var c = document.createElement("canvas");
+  c= document.createElement("canvas");
 	c.id = "mycanvas";
 	c.name = i;
 	c.width = 300;
@@ -24,27 +18,21 @@ function createCanvas(c_word, c_meaning, i) {
 	addLabelToCanvas(c, c_word);
 	var panel = document.getElementById("main_panel");
 	panel.insertBefore(c, panel.childNodes[2]);
-	return c;
 }
-
 
 function deleteCanvas(e) {
 	e.parentNode.removeChild(e);
 }
 
-
 function clickCanvas(e,e_word, e_meaning, i) {
-	deleteCanvas(e);
-	createCanvas(e_meaning, e_word, i);
+	deleteCanvas(e); createCanvas(e_meaning, e_word, i);
 }
-
 
 function addLabelToCanvas(e, label) {
 	var ctx = e.getContext("2d");
 	ctx.textAlign = "center";
 	ctx.fillText(label, e.width/2, e.height/2);
 }
-
 
 function clickMove(move) {
 	if (move == "back") {
@@ -69,7 +57,6 @@ function clickMove(move) {
 	c_meaning = meaning_arr[c_word];
 	new_c = createCanvas(c_word, c_meaning, i);
 }
-
 
 function moveKeyDisplayHandler(i) {
 	var left = document.getElementById("move_left");
@@ -97,38 +84,49 @@ function getParamFromURL(param) {
 	return value;
 }
 
-<!--Begin-->
 
-var value = getParamFromURL("category");
-var word_arr = [];
-var meaning_arr = {};
 
-if (value === "animals") {
-	word_arr = ['Dog', 'Cat', 'Horse'];
-	meaning_arr = {'Dog':'Friend/Pet', 'Cat':'Annoying Animal', 'Horse':'runing Animal'};
+function main(){
+	var selected_category = getParamFromURL("category");
+	var vocabulary = JSON.parse(data);
+	var meaning_dict = vocabulary[selected_category];
+
+	var card = {
+		id: 0,
+		word: 'card',
+		meaning: 'card meaning',
+		flip: 0,
+	};
+
+	var canvas = createCanvasWithCard(document, card);
+
+	var prev_btn = createButton(document, 'prev');
+	var next_btn = createButton(document, 'next');
+
+	document.body.appendChild(prev_btn);
+	document.body.appendChild(canvas);
+	document.body.appendChild(next_btn);
+
+	//writeTextToCanvas(canvas, Object.keys(meaning_dict)[0]);
+	// createCanvas(word_arr[0], meaning_dict[word_arr[0]], 0);
+
+	// var left = document.getElementById("move_left");
+	// addLabelToCanvas(left, "<< Prev");
+	// left.onclick = function() {clickMove("left")};
+
+	// var right = document.getElementById("move_right");
+	// addLabelToCanvas(right, "Next >>");
+	// right.onclick = function() {clickMove("right")};
+
+	// var back = document.getElementById("back");
+	// addLabelToCanvas(back, "Back To Main Page");
+	// back.onclick = function() {clickMove("back")};
+
+	//-create dictionary for vocabulary
+	//-create canvas for 1 word, canvas for next and previous
 }
-else if (value === "vehicles") {
-	word_arr = ['Car', 'Bike', 'Train'];
-	meaning_arr = {'Car':'Vehicle with engine and 4 wheels', 'Bike':'Vehicle with paddle and two wheels', 'Train':'Vehicles with steam-engine, multiple wheels and blocks-chain'};
-}
-else if (value === "actions") {
-	word_arr = ['Walk', 'Speak', 'Run'];
-	meaning_arr = {'Walk':'Moving body with legs', 'Speak':'Moving mouth, tongue and lips to make sound', 'Run':'Moving body fast with legs'};
-}
 
-createCanvas(word_arr[0], meaning_arr[word_arr[0]], 0);
-
-var left = document.getElementById("move_left");
-addLabelToCanvas(left, "<< Prev");
-left.onclick = function() {clickMove("left")};
-
-var right = document.getElementById("move_right");
-addLabelToCanvas(right, "Next >>");
-right.onclick = function() {clickMove("right")};
-
-var back = document.getElementById("back");
-addLabelToCanvas(back, "Back To Main Page");
-back.onclick = function() {clickMove("back")};
+main();
 </script> 
 
 </body>
