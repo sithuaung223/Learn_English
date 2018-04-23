@@ -91,18 +91,25 @@ function main(){
 	var vocabulary = JSON.parse(data);
 	var meaning_dict = vocabulary[selected_category];
 
-	var card = {
-		id: 0,
-		word: ['card', 'card_meaning'],
-		flip: 0
-	};
-	var canvas = createCanvasWithCard(document, card);
+	var deck = [];
+	var i = 0;
+	for (var w in meaning_dict) {
+		var card = {
+			id: i,
+			word: [w, meaning_dict[w]],
+			flip: 0
+		};
+		var canvas = createCanvasWithCard(document, card);
+		deck.push(canvas);
+		++i;
+	}
+	console.log(deck);
 
 	var prev_btn = createButton(document, 'prev');
 	var next_btn = createButton(document, 'next');
 
 	document.body.appendChild(prev_btn);
-	document.body.appendChild(canvas);
+	document.body.appendChild(deck[0]);
 	document.body.appendChild(next_btn);
 
 	//writeTextToCanvas(canvas, Object.keys(meaning_dict)[0]);
