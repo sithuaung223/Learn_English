@@ -36,12 +36,28 @@ function createCanvasWithText(doc, id, text) {
 }
 
 function createCanvasWithCard(doc, card) {
-	var canvas = createCanvasWithText(document, card.flip, card.word[card.flip]);
+	var canvas = createCanvasWithText(document, card.id, card.word[card.flip]);
 	canvas.onclick = function() {
 		card.flip = Math.abs(card.flip - 1);
 		rewriteTextToCanvas(canvas, card.word[card.flip]);
 	}
 	return canvas;
+}
+
+function createDeckWithDictionary(doc, dict) {
+	var deck = [];
+	var i = 0;
+	for (var w in dict) {
+		var card = {
+			id: i,
+			word: [w, dict[w]],
+			flip: 0
+		};
+		var canvas = createCanvasWithCard(doc, card);
+		deck.push(canvas);
+		++i;
+	}
+	return deck;
 }
 
 function findIndexByKeyValue (dictToSearch, keyValue) {
