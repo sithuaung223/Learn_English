@@ -92,12 +92,22 @@ function main(){
 	var meaning_dict = vocabulary[selected_category];
 
 	var deck = createDeckWithDictionary(document, meaning_dict);
+	var current_card = deck[0];
 
 	var prev_btn = createButton(document, 'prev');
 	var next_btn = createButton(document, 'next');
+	next_btn.onclick = function() {
+		var index = deck.indexOf(current_card);
+		++index;
+		if (index < deck.length) {
+			document.body.removeChild(current_card);
+			current_card = deck[index];
+			document.body.insertBefore(current_card, next_btn);
+		}
+	}
 
 	document.body.appendChild(prev_btn);
-	document.body.appendChild(deck[0]);
+	document.body.appendChild(current_card);
 	document.body.appendChild(next_btn);
 
 	//writeTextToCanvas(canvas, Object.keys(meaning_dict)[0]);
