@@ -60,14 +60,28 @@ function createDeckWithDictionary(doc, dict) {
 	return deck;
 }
 
-function findIndexByKeyValue (dictToSearch, keyValue) {
-	var i = 0;
-	for (var key in dictToSearch) {
-		if (key == keyValue)
-			return i;
-		++i;
+function removeCard(doc, current_card) {
+	doc.body.removeChild(current_card);
+}
+
+function getNextCard(deck, current_card) {
+	var index = deck.indexOf(current_card);
+	index = index + 1;
+	if (index < deck.length) {
+		next_card = deck[index];
 	}
-	return null;
+	return next_card;
+}
+
+function insertNextCard(doc, next_card, next_btn) {
+		doc.body.insertBefore(next_card, next_btn);
+}
+
+function nextBtnOnClick(doc, current_card, deck, next_btn) {
+	removeCard(doc,current_card);
+	var next_card = getNextCard(deck, current_card);
+	insertNextCard(doc, next_card, next_btn);
+	return next_card;
 }
 
 function createButton(doc, id) {
@@ -84,5 +98,6 @@ function createButton(doc, id) {
     btn.style.fontSize= '16px';
     btn.style.margin= '4px 2px';
     btn.style.cursor= 'pointer';
+
 	return btn;
 }

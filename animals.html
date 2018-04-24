@@ -96,15 +96,18 @@ function main(){
 
 	var prev_btn = createButton(document, 'prev');
 	var next_btn = createButton(document, 'next');
-	next_btn.onclick = function() {
-		var index = deck.indexOf(current_card);
-		++index;
-		if (index < deck.length) {
-			document.body.removeChild(current_card);
-			current_card = deck[index];
-			document.body.insertBefore(current_card, next_btn);
-		}
-	}
+    next_btn.onclick = function() {
+    	current_card = nextBtnOnClick(document, current_card, deck, next_btn);
+    };
+	// next_btn.onclick = function() {
+		// var index = deck.indexOf(current_card);
+		// ++index;
+		// if (index < deck.length) {
+		// 	document.body.removeChild(current_card);
+		// 	current_card = deck[index];
+		// 	document.body.insertBefore(current_card, next_btn);
+		// }
+	// }
 
 	document.body.appendChild(prev_btn);
 	document.body.appendChild(current_card);
