@@ -89,10 +89,18 @@ function insertNewCard(doc, new_card, next_btn) {
 }
 
 function getNewCardWithButtonId(doc, current_card, deck, btn_id) {
-	removeCard(doc,current_card);
 	var index = getIndexOfCard(deck, current_card);
 	var new_index = incrementIndexWithId(index, btn_id);
 	var new_card = getNewCardWithIndex(deck, current_card, new_index);
+
+	return new_card;
+}
+
+function replaceWithNewCard(doc, current_card, deck, btn_id, next_btn) {
+	removeCard(doc,current_card);
+	var new_card = getNewCardWithButtonId(document, current_card, deck, btn_id);
+	insertNewCard(doc, new_card, next_btn);
+
 	return new_card;
 }
 

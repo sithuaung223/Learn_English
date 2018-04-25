@@ -18,12 +18,10 @@ function main(){
 	// var backToMenu_btn = createButton(document, 'Back To Menu');
 
     prev_btn.onclick = function() {
-    	current_card = getNewCardWithButtonId(document, current_card, deck, prev_btn.id);
-		insertNewCard(document, current_card, next_btn);
+	   	current_card = replaceWithNewCard(document, current_card, deck, prev_btn.id, next_btn);
     };
     next_btn.onclick = function() {
-    	current_card = getNewCardWithButtonId(document, current_card, deck, next_btn.id);
-		insertNewCard(document, current_card, next_btn);
+	   	current_card = replaceWithNewCard(document, current_card, deck, next_btn.id, next_btn);
     };
 
 	document.body.appendChild(prev_btn);
