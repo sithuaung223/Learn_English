@@ -88,15 +88,11 @@ function insertNewCard(doc, new_card, next_btn) {
 		doc.body.insertBefore(new_card, next_btn);
 }
 
-function navBtnOnClick(doc, current_card, deck, btn_id) {
+function getNewCardWithButtonId(doc, current_card, deck, btn_id) {
 	removeCard(doc,current_card);
-
 	var index = getIndexOfCard(deck, current_card);
-	console.log(index);
 	var new_index = incrementIndexWithId(index, btn_id);
-	console.log(new_index);
 	var new_card = getNewCardWithIndex(deck, current_card, new_index);
-
 	return new_card;
 }
 
