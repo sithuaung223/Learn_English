@@ -71,12 +71,11 @@ function getNewCardWithIndex(deck, current_card, new_index) {
 	return current_card;
 }
 
-function insertNewCard(doc, new_card, next_btn) {
-		doc.body.insertBefore(new_card, next_btn);
+function getIndexOfCard(deck, current_card) {
+	return index = deck.indexOf(current_card);
 }
 
-function incrementIndexWithId(deck, current_card, btn_id) {
-	var index = deck.indexOf(current_card);
+function incrementIndexWithId(index, btn_id) {
 	if (btn_id == 'next') {
 		return (index+1);
 	}
@@ -85,14 +84,21 @@ function incrementIndexWithId(deck, current_card, btn_id) {
 	}
 }
 
-function navBtnOnClick(doc, current_card, deck, btn_id, next_btn) {
-	removeCard(doc,current_card);
-	var new_index = incrementIndexWithId(deck, current_card, btn_id);
-	var new_card = getNewCardWithIndex(deck, current_card, new_index);
-	insertNewCard(doc, new_card, next_btn);
-	return new_card;
+function insertNewCard(doc, new_card, next_btn) {
+		doc.body.insertBefore(new_card, next_btn);
 }
 
+function navBtnOnClick(doc, current_card, deck, btn_id) {
+	removeCard(doc,current_card);
+
+	var index = getIndexOfCard(deck, current_card);
+	console.log(index);
+	var new_index = incrementIndexWithId(index, btn_id);
+	console.log(new_index);
+	var new_card = getNewCardWithIndex(deck, current_card, new_index);
+
+	return new_card;
+}
 
 function createButton(doc, id) {
 	var btn = doc.createElement("BUTTON");
@@ -110,4 +116,11 @@ function createButton(doc, id) {
     btn.style.cursor= 'pointer';
 
 	return btn;
+}
+
+function getParamFromURL(param) {
+	var url_string = window.location.href;
+	var url = new URL(url_string);
+	var value = url.searchParams.get(param);
+	return value;
 }
