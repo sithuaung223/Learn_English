@@ -64,25 +64,35 @@ function removeCard(doc, current_card) {
 	doc.body.removeChild(current_card);
 }
 
-function getNextCard(deck, current_card) {
-	var index = deck.indexOf(current_card);
-	index = index + 1;
-	if (index < deck.length) {
-		next_card = deck[index];
+function getNewCardWithIndex(deck, current_card, new_index) {
+	if (new_index >= 0 && new_index < deck.length) {
+		current_card = deck[new_index];
 	}
-	return next_card;
+	return current_card;
 }
 
-function insertNextCard(doc, next_card, next_btn) {
-		doc.body.insertBefore(next_card, next_btn);
+function insertNewCard(doc, new_card, next_btn) {
+		doc.body.insertBefore(new_card, next_btn);
 }
 
-function nextBtnOnClick(doc, current_card, deck, next_btn) {
+function incrementIndexWithId(deck, current_card, btn_id) {
+	var index = deck.indexOf(current_card);
+	if (btn_id == 'next') {
+		return (index+1);
+	}
+	else if (btn_id == 'prev') {
+		return (index-1);
+	}
+}
+
+function navBtnOnClick(doc, current_card, deck, btn_id, next_btn) {
 	removeCard(doc,current_card);
-	var next_card = getNextCard(deck, current_card);
-	insertNextCard(doc, next_card, next_btn);
-	return next_card;
+	var new_index = incrementIndexWithId(deck, current_card, btn_id);
+	var new_card = getNewCardWithIndex(deck, current_card, new_index);
+	insertNewCard(doc, new_card, next_btn);
+	return new_card;
 }
+
 
 function createButton(doc, id) {
 	var btn = doc.createElement("BUTTON");

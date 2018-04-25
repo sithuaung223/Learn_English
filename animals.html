@@ -97,7 +97,10 @@ function main(){
 	var prev_btn = createButton(document, 'prev');
 	var next_btn = createButton(document, 'next');
     next_btn.onclick = function() {
-    	current_card = nextBtnOnClick(document, current_card, deck, next_btn);
+    	current_card = navBtnOnClick(document, current_card, deck, next_btn.id, next_btn);
+    };
+    prev_btn.onclick = function() {
+    	current_card = navBtnOnClick(document, current_card, deck, prev_btn.id, next_btn);
     };
 	// next_btn.onclick = function() {
 		// var index = deck.indexOf(current_card);
