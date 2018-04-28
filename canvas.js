@@ -71,34 +71,45 @@ function getNewCardWithIndex(deck, current_card, new_index) {
 	return current_card;
 }
 
-function getIndexOfCard(deck, current_card) {
-	return index = deck.indexOf(current_card);
-}
+// function displayButtonWithNewIndex(deck, new_index, btn) {
+// 	if (new_index == 0 && btn.id == 'prev') {
+// 	    btn.style.display= 'none';
+// 	}
+// 	else if (new_index == deck.length-1 && btn.id == 'next') {
+// 	    btn.style.display= 'none';
+// 	}
+// }
 
-function incrementIndexWithId(index, btn_id) {
-	if (btn_id == 'next') {
+function incrementIndexWithButton(index, btn) {
+	if (btn.id == 'next') {
 		return (index+1);
 	}
-	else if (btn_id == 'prev') {
+	else if (btn.id == 'prev') {
 		return (index-1);
 	}
 }
 
-function insertNewCard(doc, new_card, next_btn) {
-		doc.body.insertBefore(new_card, next_btn);
+function getIndexOfCard(deck, current_card) {
+	return index = deck.indexOf(current_card);
 }
 
-function getNewCardWithButtonId(doc, current_card, deck, btn_id) {
+function getNewCardWithButton(doc, current_card, deck, btn) {
 	var index = getIndexOfCard(deck, current_card);
-	var new_index = incrementIndexWithId(index, btn_id);
+	var new_index = incrementIndexWithButton(index, btn);
+	// displayButtonWithNewIndex(deck, new_index, btn);
 	var new_card = getNewCardWithIndex(deck, current_card, new_index);
 
 	return new_card;
 }
 
-function replaceWithNewCard(doc, current_card, deck, btn_id, next_btn) {
+function insertNewCard(doc, new_card, next_btn) {
+	doc.body.insertBefore(new_card, next_btn);
+}
+
+
+function replaceWithNewCard(doc, current_card, deck, btn, next_btn) {
 	removeCard(doc,current_card);
-	var new_card = getNewCardWithButtonId(document, current_card, deck, btn_id);
+	var new_card = getNewCardWithButton(document, current_card, deck, btn);
 	insertNewCard(doc, new_card, next_btn);
 
 	return new_card;
