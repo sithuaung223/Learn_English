@@ -103,7 +103,9 @@ function updateLearning(decks, card) {
 		removeCardFromNewDeck(decks.new_deck, card);
 		// add to learnDeck;
 		decks.learn_deck.push(card);
-		console.log(decks.learn_deck[decks.learn_deck.length-1].canvas.id);
+		console.log("move to learning: ", decks.learn_deck[decks.learn_deck.length-1].canvas.id);
+	} else {
+		
 	}
 }
 
@@ -112,11 +114,11 @@ function insertNewCard(doc, new_card, next_btn) {
 	doc.body.insertBefore(new_card.learnBox, next_btn);
 }
 
-function getNewCardWithButton(doc, decks, current_btn) {
-	var index = getIndexOfCard(decks.new_deck, decks.current_card);
+function getNewCardWithButton(doc, deck, current_card, current_btn) {
+	var index = getIndexOfCard(deck, current_card);
 	var new_index = incrementIndexWithButton(index, current_btn);
 	// displayButtonWithNewIndex(deck, new_index, btn);
-	var new_card = getNewCardWithIndex(decks.new_deck, decks.current_card, new_index);
+	var new_card = getNewCardWithIndex(deck, current_card, new_index);
 
 	return new_card;
 }
@@ -127,8 +129,8 @@ function removeCard(doc, current_card) {
 }
 
 function replaceWithNewCard(doc, decks, btn) {
-	removeCard(doc,decks.current_card);
-	var new_card = getNewCardWithButton(document, decks, btn.current);
+	removeCard(doc, decks.current_card);
+	var new_card = getNewCardWithButton(document, decks.new_deck, decks.current_card, btn.current);
 	insertNewCard(doc, new_card, btn.next);
 
 	updateLearning(decks, decks.current_card);

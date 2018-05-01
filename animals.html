@@ -13,25 +13,28 @@ function main(){
 	var decks = {
 		learn_deck: [],
 		new_deck: [],
+		display_learnDeck: false,
 		current_card: null 
 	};
 
 	decks.new_deck = createDeckWithDictionary(document, meaning_dict);
 	decks.current_card = decks.new_deck[0]
 
+	var display_deck = decks.new_deck;
 	var prev_btn = createButton(document, 'prev');
 	var next_btn = createButton(document, 'next');
+	var filter_learningCard = createCheckBox(document, "myFilter", false);
 	// var backToMenu_btn = createButton(document, 'Back To Menu');
 
 	var p_btn = {
 		current: prev_btn,
 		next: next_btn
 	};
-
 	var n_btn = {
 		current: next_btn,
 		next: next_btn
 	};
+
 
     prev_btn.onclick = function() {
 	   	decks.current_card = replaceWithNewCard(document, decks, p_btn);
@@ -39,18 +42,15 @@ function main(){
     next_btn.onclick = function() {
 	   	decks.current_card = replaceWithNewCard(document, decks, n_btn);
     };
-
-	// var filter_learningCard = createCheckBox(document, "myFilter", false);
-	// filter_learningCard.onclick = function() {
-	// 	fliterLearningCard();
-
-	// }
+    filter_learningCard.onclick = function() {
+		decks.display_learnDeck = filter_learningCard.checked;
+    };
 
 	document.body.appendChild(prev_btn);
 	document.body.appendChild(decks.current_card.canvas);
 	document.body.appendChild(decks.current_card.learnBox);
 	document.body.appendChild(next_btn);
-	// document.body.appendChild(filter_learningCard);
+	document.body.appendChild(filter_learningCard);
 	// document.body.appendChild(backToMenu_btn);
 }
 
