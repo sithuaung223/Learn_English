@@ -101,7 +101,6 @@ function removeCardFromDeck(deck, card) {
 function updateLearning(decks, card) {
 	if (card.learnBox.checked) {
 		removeCardFromDeck(decks.new_deck, card);
-		// add to learnDeck;
 		decks.learn_deck.push(card);
 		console.log("move to learning: ", decks.learn_deck[decks.learn_deck.length-1].canvas.id);
 	} else {
@@ -109,7 +108,6 @@ function updateLearning(decks, card) {
 		decks.new_deck.push(card);
 		console.log("move to new: ", decks.new_deck[decks.new_deck.length-1].canvas.id);
 	}
-
 }
 
 function insertNewCard(doc, new_card, next_btn) {
@@ -132,23 +130,32 @@ function removeCard(doc, current_card) {
 }
 
 function getChoosenDeckForDisplay(decks) {
-	var deck;
-	if (decks.display_learnDeck) {
-		deck = decks.learn_deck;
-	} else {
-		deck = decks.new_deck;
-	}
-	return deck;
+	if (decks.display_learnDeck) 
+		return decks.learn_deck;
+	else 
+		return decks.new_deck;
 }
 
 function replaceWithNewCard(doc, decks, btn) {
 	var deck = getChoosenDeckForDisplay(decks);
-	
+
 	removeCard(doc, decks.current_card);
-	new_card = getNewCardWithButton(doc, deck, decks.current_card, btn.current);
+	var new_card = getNewCardWithButton(doc, deck, decks.current_card, btn.current);
 	insertNewCard(doc, new_card, btn.next);
 
 	if (decks.display_learnDeck != decks.current_card.learnBox.checked) {
+		updateLearning(decks, decks.current_card);
+	}
+
+	return new_card;
+}
+
+function filterLearningCard(doc, decks, btn) {
+	removeCard(doc, decks.current_card);
+	var new_card = getChoosenDeckForDisplay(decks)[0];
+	insertNewCard(doc, new_card, btn.next);
+
+	if (decks.display_learnDeck == decks.current_card.learnBox.checked) {
 		updateLearning(decks, decks.current_card);
 	}
 
