@@ -111,11 +111,11 @@ function insertNewCard(doc, new_card, next_btn) {
 	doc.body.insertBefore(new_card.learnBox, next_btn);
 }
 
-function getNewCardWithButton(doc, current_card, deck, current_btn) {
-	var index = getIndexOfCard(deck, current_card);
+function getNewCardWithButton(doc, decks, current_btn) {
+	var index = getIndexOfCard(decks.new_deck, decks.current_card);
 	var new_index = incrementIndexWithButton(index, current_btn);
 	// displayButtonWithNewIndex(deck, new_index, btn);
-	var new_card = getNewCardWithIndex(deck, current_card, new_index);
+	var new_card = getNewCardWithIndex(decks.new_deck, decks.current_card, new_index);
 
 	return new_card;
 }
@@ -127,7 +127,7 @@ function removeCard(doc, current_card) {
 
 function replaceWithNewCard(doc, decks, btn) {
 	removeCard(doc,decks.current_card);
-	var new_card = getNewCardWithButton(document, decks.current_card, decks.new_deck, btn.current);
+	var new_card = getNewCardWithButton(document, decks, btn.current);
 	insertNewCard(doc, new_card, btn.next);
 
 	updateLearning(decks.new_deck, decks.current_card);
