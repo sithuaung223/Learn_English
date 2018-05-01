@@ -154,18 +154,20 @@ function getChoosenDeckForDisplay(decks) {
 }
 
 function replaceWithNewCard(doc, decks, btn) {
-	if (decks.current_card != null && decks.display_learnDeck != decks.current_card.learnBox.checked)
-		updateLearning(decks, decks.current_card);
-
 	var deck = getChoosenDeckForDisplay(decks);
 	removeCard(doc, decks.current_card);
 	var new_card = getNewCardWithButton(doc, deck, decks.current_card, btn);
 	insertNewCard(doc, new_card, btn.next);
 
+	// update to other deck after insert. Updating before can cause lost track of index -> prev button bug
+	if (decks.current_card != null && decks.display_learnDeck != decks.current_card.learnBox.checked)
+		updateLearning(decks, decks.current_card);
+
 	return new_card;
 }
 
 function filterLearningCard(doc, decks, btn) {
+	// update to destination deck before switching deck
 	if (decks.current_card != null && decks.display_learnDeck == decks.current_card.learnBox.checked)
 		updateLearning(decks, decks.current_card);
 
