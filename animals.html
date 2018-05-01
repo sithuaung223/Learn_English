@@ -34,8 +34,13 @@ function main(){
 	   	current_card = replaceWithNewCard(document, current_card, deck, n_btn);
     };
 
+	// var input = document.createElement("input");
+	// input.id = "myCheck";
+	// input.type = "checkbox";
+
 	document.body.appendChild(prev_btn);
-	document.body.appendChild(current_card);
+	document.body.appendChild(current_card.canvas);
+	document.body.appendChild(current_card.checkbox);
 	document.body.appendChild(next_btn);
 	// document.body.appendChild(backToMenu_btn);
 }

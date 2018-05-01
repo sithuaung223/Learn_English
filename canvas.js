@@ -44,16 +44,26 @@ function createCanvasWithCard(doc, card) {
 	return canvas;
 }
 
+function createCard(doc, dict, w, i) {
+	var card = {
+		id: i,
+		word: [w, dict[w]],
+		flip: 0,
+	};
+	var canvas = createCanvasWithCard(doc, card);
+	var cb = createCheckBox(doc, "myCheck", false);
+	var flash_card = {
+		canvas: canvas,
+		checkbox: cb
+	}
+	return flash_card;
+}
+
 function createDeckWithDictionary(doc, dict) {
 	var deck = [];
 	var i = 0;
 	for (var w in dict) {
-		var card = {
-			id: i,
-			word: [w, dict[w]],
-			flip: 0
-		};
-		var canvas = createCanvasWithCard(doc, card);
+		var canvas = createCard(doc, dict, w, i);
 		deck.push(canvas);
 		++i;
 	}
@@ -61,7 +71,8 @@ function createDeckWithDictionary(doc, dict) {
 }
 
 function removeCard(doc, current_card) {
-	doc.body.removeChild(current_card);
+	doc.body.removeChild(current_card.canvas);
+	doc.body.removeChild(current_card.checkbox);
 }
 
 function getNewCardWithIndex(deck, current_card, new_index) {
@@ -103,7 +114,8 @@ function getNewCardWithButton(doc, current_card, deck, current_btn) {
 }
 
 function insertNewCard(doc, new_card, next_btn) {
-	doc.body.insertBefore(new_card, next_btn);
+	doc.body.insertBefore(new_card.canvas, next_btn);
+	doc.body.insertBefore(new_card.checkbox, next_btn);
 }
 
 
@@ -131,6 +143,15 @@ function createButton(doc, id) {
     btn.style.cursor= 'pointer';
 
 	return btn;
+}
+
+function createCheckBox(doc, id, check) {
+	var input = doc.createElement("input");
+	input.id = id;
+	input.type = "checkbox";
+	input.checked = check;
+
+	return input;
 }
 
 function getParamFromURL(param) {
