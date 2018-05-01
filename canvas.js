@@ -51,10 +51,10 @@ function createCard(doc, dict, w, i) {
 		flip: 0,
 	};
 	var canvas = createCanvasWithCard(doc, card);
-	var cb = createCheckBox(doc, "myCheck", false);
+	var cb = createCheckBox(doc, "myLearnBox", false);
 	var flash_card = {
 		canvas: canvas,
-		checkbox: cb
+		learnBox: cb
 	}
 	return flash_card;
 }
@@ -63,16 +63,11 @@ function createDeckWithDictionary(doc, dict) {
 	var deck = [];
 	var i = 0;
 	for (var w in dict) {
-		var canvas = createCard(doc, dict, w, i);
-		deck.push(canvas);
+		var card = createCard(doc, dict, w, i);
+		deck.push(card);
 		++i;
 	}
 	return deck;
-}
-
-function removeCard(doc, current_card) {
-	doc.body.removeChild(current_card.canvas);
-	doc.body.removeChild(current_card.checkbox);
 }
 
 function getNewCardWithIndex(deck, current_card, new_index) {
@@ -81,15 +76,6 @@ function getNewCardWithIndex(deck, current_card, new_index) {
 	}
 	return current_card;
 }
-
-// function displayButtonWithNewIndex(deck, new_index, btn) {
-// 	if (new_index == 0 && btn.id == 'prev') {
-// 	    btn.style.display= 'none';
-// 	}
-// 	else if (new_index == deck.length-1 && btn.id == 'next') {
-// 	    btn.style.display= 'none';
-// 	}
-// }
 
 function incrementIndexWithButton(index, current_btn) {
 	if (current_btn.id == 'next') {
@@ -104,6 +90,26 @@ function getIndexOfCard(deck, current_card) {
 	return index = deck.indexOf(current_card);
 }
 
+function removeCardFromNewDeck(deck, card) {
+	var index = getIndexOfCard(deck, card);
+	var learn_card = card;
+	if (index > -1) {
+		deck.splice(index, 1);
+	}
+}
+
+function updateLearning(deck, card) {
+	if (card.learnBox.checked) {
+		removeCardFromNewDeck(deck,card);
+		// add to learnDeck;
+	}
+}
+
+function insertNewCard(doc, new_card, next_btn) {
+	doc.body.insertBefore(new_card.canvas, next_btn);
+	doc.body.insertBefore(new_card.learnBox, next_btn);
+}
+
 function getNewCardWithButton(doc, current_card, deck, current_btn) {
 	var index = getIndexOfCard(deck, current_card);
 	var new_index = incrementIndexWithButton(index, current_btn);
@@ -113,17 +119,18 @@ function getNewCardWithButton(doc, current_card, deck, current_btn) {
 	return new_card;
 }
 
-function insertNewCard(doc, new_card, next_btn) {
-	doc.body.insertBefore(new_card.canvas, next_btn);
-	doc.body.insertBefore(new_card.checkbox, next_btn);
+function removeCard(doc, current_card) {
+	doc.body.removeChild(current_card.canvas);
+	doc.body.removeChild(current_card.learnBox);
 }
-
 
 function replaceWithNewCard(doc, current_card, deck, btn) {
 	removeCard(doc,current_card);
 	var new_card = getNewCardWithButton(document, current_card, deck, btn.current);
 	insertNewCard(doc, new_card, btn.next);
 
+	updateLearning(deck, current_card);
+	
 	return new_card;
 }
 
@@ -160,3 +167,12 @@ function getParamFromURL(param) {
 	var value = url.searchParams.get(param);
 	return value;
 }
+
+// function displayButtonWithNewIndex(deck, new_index, btn) {
+// 	if (new_index == 0 && btn.id == 'prev') {
+// 	    btn.style.display= 'none';
+// 	}
+// 	else if (new_index == deck.length-1 && btn.id == 'next') {
+// 	    btn.style.display= 'none';
+// 	}
+// }
