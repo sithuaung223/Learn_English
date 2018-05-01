@@ -41,11 +41,14 @@ function main(){
     next_btn.onclick = function() {
 	   	decks.current_card = replaceWithNewCard(document, decks, n_btn);
     };
-    
+
     filter_learningCard.onclick = function() {
 		decks.display_learnDeck = filter_learningCard.checked;
-		var display_deck = getChoosenDeckForDisplay(decks);
 		removeCard(document, decks.current_card);
+		if (decks.display_learnDeck == decks.current_card.learnBox.checked) {
+			updateLearning(decks, decks.current_card);
+		}
+		var display_deck = getChoosenDeckForDisplay(decks);
 		insertNewCard(document, display_deck[0], p_btn.next);
 		decks.current_card = display_deck[0];
     };
