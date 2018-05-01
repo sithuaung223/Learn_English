@@ -17,11 +17,21 @@ function main(){
 	var next_btn = createButton(document, 'next');
 	// var backToMenu_btn = createButton(document, 'Back To Menu');
 
+	var p_btn = {
+		current: prev_btn,
+		next: next_btn
+	};
+
+	var n_btn = {
+		current: next_btn,
+		next: next_btn
+	};
+
     prev_btn.onclick = function() {
-	   	current_card = replaceWithNewCard(document, current_card, deck, prev_btn, next_btn);
+	   	current_card = replaceWithNewCard(document, current_card, deck, p_btn);
     };
     next_btn.onclick = function() {
-	   	current_card = replaceWithNewCard(document, current_card, deck, next_btn, next_btn);
+	   	current_card = replaceWithNewCard(document, current_card, deck, n_btn);
     };
 
 	document.body.appendChild(prev_btn);
