@@ -102,6 +102,7 @@ function updateLearning(deck, card) {
 	if (card.learnBox.checked) {
 		removeCardFromNewDeck(deck,card);
 		// add to learnDeck;
+		// addCardToLearnDeck(deck,card);
 	}
 }
 
@@ -124,13 +125,13 @@ function removeCard(doc, current_card) {
 	doc.body.removeChild(current_card.learnBox);
 }
 
-function replaceWithNewCard(doc, current_card, deck, btn) {
-	removeCard(doc,current_card);
-	var new_card = getNewCardWithButton(document, current_card, deck, btn.current);
+function replaceWithNewCard(doc, decks, btn) {
+	removeCard(doc,decks.current_card);
+	var new_card = getNewCardWithButton(document, decks.current_card, decks.new_deck, btn.current);
 	insertNewCard(doc, new_card, btn.next);
 
-	updateLearning(deck, current_card);
-	
+	updateLearning(decks.new_deck, decks.current_card);
+
 	return new_card;
 }
 

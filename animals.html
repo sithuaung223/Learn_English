@@ -10,8 +10,14 @@ function main(){
 	var vocabulary = JSON.parse(data);
 	var meaning_dict = vocabulary[selected_category];
 
-	var new_deck = createDeckWithDictionary(document, meaning_dict);
-	var current_card = new_deck[0];
+	var decks = {
+		learn_deck: [],
+		new_deck: [],
+		current_card: null 
+	};
+
+	decks.new_deck = createDeckWithDictionary(document, meaning_dict);
+	decks.current_card = decks.new_deck[0]
 
 	var prev_btn = createButton(document, 'prev');
 	var next_btn = createButton(document, 'next');
@@ -28,10 +34,10 @@ function main(){
 	};
 
     prev_btn.onclick = function() {
-	   	current_card = replaceWithNewCard(document, current_card, new_deck, p_btn);
+	   	decks.current_card = replaceWithNewCard(document, decks, p_btn);
     };
     next_btn.onclick = function() {
-	   	current_card = replaceWithNewCard(document, current_card, new_deck, n_btn);
+	   	decks.current_card = replaceWithNewCard(document, decks, n_btn);
     };
 
 	// var filter_learningCard = createCheckBox(document, "myFilter", false);
@@ -41,8 +47,8 @@ function main(){
 	// }
 
 	document.body.appendChild(prev_btn);
-	document.body.appendChild(current_card.canvas);
-	document.body.appendChild(current_card.learnBox);
+	document.body.appendChild(decks.current_card.canvas);
+	document.body.appendChild(decks.current_card.learnBox);
 	document.body.appendChild(next_btn);
 	// document.body.appendChild(filter_learningCard);
 	// document.body.appendChild(backToMenu_btn);
