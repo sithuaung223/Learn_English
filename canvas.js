@@ -90,19 +90,20 @@ function getIndexOfCard(deck, current_card) {
 	return index = deck.indexOf(current_card);
 }
 
-function removeCardFromNewDeck(deck, card) {
-	var index = getIndexOfCard(deck, card);
+function removeCardFromNewDeck(new_deck, card) {
+	var index = getIndexOfCard(new_deck, card);
 	var learn_card = card;
 	if (index > -1) {
-		deck.splice(index, 1);
+		new_deck.splice(index, 1);
 	}
 }
 
-function updateLearning(deck, card) {
+function updateLearning(decks, card) {
 	if (card.learnBox.checked) {
-		removeCardFromNewDeck(deck,card);
+		removeCardFromNewDeck(decks.new_deck, card);
 		// add to learnDeck;
-		// addCardToLearnDeck(deck,card);
+		decks.learn_deck.push(card);
+		console.log(decks.learn_deck[decks.learn_deck.length-1].canvas.id);
 	}
 }
 
@@ -130,7 +131,7 @@ function replaceWithNewCard(doc, decks, btn) {
 	var new_card = getNewCardWithButton(document, decks, btn.current);
 	insertNewCard(doc, new_card, btn.next);
 
-	updateLearning(decks.new_deck, decks.current_card);
+	updateLearning(decks, decks.current_card);
 
 	return new_card;
 }
