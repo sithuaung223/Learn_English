@@ -20,7 +20,6 @@ function main(){
 	decks.new_deck = createDeckWithDictionary(document, meaning_dict);
 	decks.current_card = decks.new_deck[0]
 
-	var display_deck = decks.new_deck;
 	var prev_btn = createButton(document, 'prev');
 	var next_btn = createButton(document, 'next');
 	var filter_learningCard = createCheckBox(document, "myFilter", false);
@@ -42,8 +41,13 @@ function main(){
     next_btn.onclick = function() {
 	   	decks.current_card = replaceWithNewCard(document, decks, n_btn);
     };
+    
     filter_learningCard.onclick = function() {
 		decks.display_learnDeck = filter_learningCard.checked;
+		var display_deck = getChoosenDeckForDisplay(decks);
+		removeCard(document, decks.current_card);
+		insertNewCard(document, display_deck[0], p_btn.next);
+		decks.current_card = display_deck[0];
     };
 
 	document.body.appendChild(prev_btn);
