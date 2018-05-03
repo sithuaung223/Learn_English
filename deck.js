@@ -39,7 +39,7 @@ function getDisplayDeckWithIsFiltered(deck, filtered_deck, isFiltered) {
 
 function getNewCardBtn(deck, current_card_btn, btn) {
 	var index = getIndexOfCard(deck.cards, current_card_btn);
-	var new_card_btn = (btn.current.id =='next') 
+	var new_card_btn = (btn.id =='next') 
 					? deck.cards[index+1]
 					: deck.cards[index-1];
 	return new_card_btn;

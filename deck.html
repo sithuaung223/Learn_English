@@ -32,17 +32,6 @@ function main(){
 	var prev_btn = createButton(document, 'prev');
 	var next_btn = createButton(document, 'next');
 
-	var p_btn = {
-		current: prev_btn,
-		prev: prev_btn,
-		next: next_btn
-	};
-	var n_btn = {
-		current: next_btn,
-		prev: prev_btn,
-		next: next_btn
-	};
-
 	var isLearned = createCheckBoxWithLabel("isLearned", "isLearned");
 	var isFiltered = createCheckBoxWithLabel("isFiltered", "isFiltered");
 
@@ -50,7 +39,7 @@ function main(){
 		flash_card_dict[current_card_btn.id].card.isLearned = isLearned.checked;
 
     	var display_deck = getDisplayDeckWithIsFiltered(deck, filtered_deck, isFiltered.checked);
-		var new_card_btn = getNewCardBtn(display_deck, current_card_btn, p_btn);
+		var new_card_btn = getNewCardBtn(display_deck, current_card_btn, prev_btn);
 
 	   	current_card_btn = replaceWithNewCardBtn(current_card_btn, new_card_btn, next_btn, isLearned);
     };
@@ -58,7 +47,7 @@ function main(){
 		flash_card_dict[current_card_btn.id].card.isLearned = isLearned.checked;
 
     	var display_deck = getDisplayDeckWithIsFiltered(deck, filtered_deck, isFiltered.checked);
-		var new_card_btn = getNewCardBtn(display_deck, current_card_btn, n_btn);
+		var new_card_btn = getNewCardBtn(display_deck, current_card_btn, next_btn);
 
 	   	current_card_btn = replaceWithNewCardBtn(current_card_btn, new_card_btn, next_btn, isLearned);
     };
