@@ -19,14 +19,14 @@ function main(){
 	var vocabulary = JSON.parse(data);
 	var meaning_dict = vocabulary[selected_category];
 
-
 	var deck = {
 		cards:[]
 	};
-	var filtered_deck = {}
+	var filtered_deck = {
+		cards:[]
+	};
 
 	deck.cards = createDeckWithDictionary(document, meaning_dict, flash_card_dict);
-   	console.log(flash_card_dict);
 	var current_card_btn = deck.cards[0]
 
 	var prev_btn = createButton(document, 'prev');
@@ -42,15 +42,45 @@ function main(){
 		prev: prev_btn,
 		next: next_btn
 	};
+
 	var isLearned = createCheckBoxWithLabel("isLearned", "isLearned");
+	var isFiltered = createCheckBoxWithLabel("isFiltered", "isFiltered");
+
     prev_btn.onclick = function() {
+    	var display_deck;
+    	if (isFiltered.checked)
+    		display_deck = filtered_deck;
+    	else
+    		display_deck = deck;
+
 	   	current_card_btn = replaceWithNewCardBtn(document, deck, current_card_btn, p_btn, isLearned.checked);
-	   	isLearned.checked = flash_card_dict[ current_card_btn.id ].card.isLearned;
+	   	isLearned.checked = cardBtnIsLearned(current_card_btn);
     };
     next_btn.onclick = function() {
-	   	current_card_btn = replaceWithNewCardBtn(document, deck, current_card_btn, n_btn, isLearned.checked);
-	   	isLearned.checked = flash_card_dict[ current_card_btn.id ].card.isLearned;
+    	var display_deck;
+    	if (isFiltered.checked)
+    		display_deck = filtered_deck;
+    	else
+    		display_deck = deck;
+
+	   	current_card_btn = replaceWithNewCardBtn(document, display_deck, current_card_btn, n_btn, isLearned.checked);
+	   	isLearned.checked = cardBtnIsLearned(current_card_btn);
     };
+    isFiltered.onclick = function() {
+		flash_card_dict[current_card_btn.id].card.isLearned = isLearned.checked; 
+
+		var new_card_btn = deck.cards[0];
+		if (isFiltered.checked) {
+ 			filtered_deck = getFilteredDeck(deck, filtered_deck);
+ 			new_card_btn = filtered_deck.cards[0];
+		}
+
+		document.body.removeChild(current_card_btn);
+    	insertNewCard(document, new_card_btn, next_btn);
+
+    	current_card_btn = new_card_btn;
+	   	isLearned.checked = cardBtnIsLearned(current_card_btn);
+    }
 
 
 	document.body.appendChild(prev_btn);
@@ -65,7 +95,6 @@ function main(){
 	document.write("<br>");
 	var isFilteredLabel = createLabelForCheckBox("isFiltered");
 	document.body.appendChild(isFilteredLabel);
-	var isFiltered = createCheckBoxWithLabel("isFiltered", "isFiltered");
 	document.body.appendChild(isFiltered);
 }
 

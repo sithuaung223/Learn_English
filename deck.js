@@ -32,16 +32,40 @@ function insertNewCard(doc, new_card, next_btn) {
 	}
 }
 
+// function getNewCardBtn(deck, current_card_btn, btn) {
+// 	var index = getIndexOfCard(deck.cards, current_card_btn);
+// 	var new_card_btn = (btn.current.id =='next') 
+// 					? deck.cards[index+1]
+// 					: deck.cards[index-1];
+// 	return new_card_btn;
+// }
+
 function replaceWithNewCardBtn(doc, deck, current_card_btn, btn, isLearned) {
 	flash_card_dict[current_card_btn.id].card.isLearned = isLearned;
-	document.body.removeChild(current_card_btn);
-	var index = getIndexOfCard(deck.cards, current_card_btn);
 
+	var index = getIndexOfCard(deck.cards, current_card_btn);
 	var new_card_btn = (btn.current.id =='next') 
 					? deck.cards[index+1]
 					: deck.cards[index-1];
+	// var new_card_btn = getNewCardBtn(deck, current_card_btn, btn);
+	document.body.removeChild(current_card_btn);
 	insertNewCard(doc, new_card_btn, btn.next);
+
 	return new_card_btn;
 }
 
+function cardBtnIsLearned(card_btn) {
+	return flash_card_dict[ card_btn.id ].card.isLearned;
+}
+
+function getFilteredDeck(deck, filtered_deck) {
+    	filtered_deck.cards = [];
+    	for (var i in deck.cards) {
+    		var card_btn = deck.cards[i];
+    		if (cardBtnIsLearned(card_btn))
+    			filtered_deck.cards.push(card_btn);
+    	}
+    	return filtered_deck;
+
+}
 //TODO: disable button at the end of array
