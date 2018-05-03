@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script type="text/javascript" src="vocabulary.json"></script>
+<script src="canvas.js"></script>
+<script src="deck.js"></script>
+
+<script>
+var flash_card_dict = {}
+function getParamFromURL(param) {
+	var url_string = window.location.href;
+	var url = new URL(url_string);
+	var value = url.searchParams.get(param);
+	return value;
+}
+
+function main(){
+	var selected_category = getParamFromURL("category");
+	var vocabulary = JSON.parse(data);
+	var meaning_dict = vocabulary[selected_category];
+
+
+	var deck = {
+		cards:[]
+	};
+	var filtered_deck = {}
+
+	deck.cards = createDeckWithDictionary(document, meaning_dict, flash_card_dict);
+   	console.log(flash_card_dict);
+	var current_card_btn = deck.cards[0]
+
+	var prev_btn = createButton(document, 'prev');
+	var next_btn = createButton(document, 'next');
+
+	var p_btn = {
+		current: prev_btn,
+		prev: prev_btn,
+		next: next_btn
+	};
+	var n_btn = {
+		current: next_btn,
+		prev: prev_btn,
+		next: next_btn
+	};
+	var isLearned = createCheckBoxWithLabel("isLearned", "isLearned");
+    prev_btn.onclick = function() {
+	   	current_card_btn = replaceWithNewCardBtn(document, deck, current_card_btn, p_btn, isLearned.checked);
+	   	isLearned.checked = flash_card_dict[ current_card_btn.id ].card.isLearned;
+    };
+    next_btn.onclick = function() {
+	   	current_card_btn = replaceWithNewCardBtn(document, deck, current_card_btn, n_btn, isLearned.checked);
+	   	isLearned.checked = flash_card_dict[ current_card_btn.id ].card.isLearned;
+    };
+
+
+	document.body.appendChild(prev_btn);
+	document.body.appendChild(current_card_btn);
+	document.body.appendChild(next_btn);
+	
+	document.write("<br>");
+	var isLearnedLabel = createLabelForCheckBox("isLearned");
+	document.body.appendChild(isLearnedLabel);
+	document.body.appendChild(isLearned);
+
+	document.write("<br>");
+	var isFilteredLabel = createLabelForCheckBox("isFiltered");
+	document.body.appendChild(isFilteredLabel);
+	var isFiltered = createCheckBoxWithLabel("isFiltered", "isFiltered");
+	document.body.appendChild(isFiltered);
+}
+
+main();
+</script> 
+
+</body>
+</html>
+

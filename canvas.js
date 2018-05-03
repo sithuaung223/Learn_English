@@ -1,183 +1,32 @@
-function writeTextToCanvas(c, label) {
-	c.name = label;
-	var ctx = c.getContext("2d");
-	ctx.textAlign = "center";
-	ctx.fillText(label, c.width/2, c.height/2);
-}
 
-function setCanvasStyle(c)
-{
-	c.width = '200';
-	c.height = 100;
-	c.style.border = '1px solid #000000';
-}
+function createCardBtnWithText(id, flash_card) {
+	var btn = document.createElement("BUTTON");
+	btn.id = id;
+	var word = flash_card.card.front_side;
+	btn.innerHTML = word;
+    btn.style.padding= '30px 64px';
+    btn.style.margin= '10px 4px';
 
-function setCanvasId(c, id) { c.id = id; }
-
-function deleteTextInCanvas(c) {
-	var ctx = c.getContext("2d");
-	ctx.clearRect(0, 0, c.width, c.height);
-}
-
-function rewriteTextToCanvas(c, text) {
-	deleteTextInCanvas(c);
-	writeTextToCanvas(c, text);
-}
-
-function createCanvasWithText(doc, id, text) {
-	var canvas = doc.createElement("canvas");
-    setCanvasId(canvas, id);
-    setCanvasStyle(canvas);
-	writeTextToCanvas(canvas, text);
-	canvas.onclick = function(){
-    window.location = './animals.html?category='+text;
+	btn.onclick = function(){
+		flash_card.isFrontSide = !flash_card.isFrontSide;
+		btn.innerHTML = (flash_card.isFrontSide)
+			? flash_card.card.front_side
+			: flash_card.card.flipped_side;
     };
-  return canvas;
+
+  return btn;
 }
 
-function createCanvasWithCard(doc, card) {
-	var canvas = createCanvasWithText(document, card.id, card.word[card.flip]);
-	canvas.onclick = function() {
-		card.flip = Math.abs(card.flip - 1);
-		rewriteTextToCanvas(canvas, card.word[card.flip]);
-	}
-	return canvas;
-}
-
-function createCard(doc, dict, w, i) {
-	var card = {
-		id: i,
-		word: [w, dict[w]],
-		flip: 0,
-	};
-	var canvas = createCanvasWithCard(doc, card);
-	var cb = createCheckBox(doc, "myLearnBox", false);
-	var flash_card = {
-		canvas: canvas,
-		learnBox: cb
-	}
-	return flash_card;
-}
-
-function createDeckWithDictionary(doc, dict) {
-	var deck = [];
-	var i = 0;
-	for (var w in dict) {
-		var card = createCard(doc, dict, w, i);
-		deck.push(card);
-		++i;
-	}
-	return deck;
-}
-
-function getNewCardWithIndex(deck, current_card, new_index) {
-	var new_card;
-	if (new_index >= 0 && new_index < deck.length) {
-		new_card = deck[new_index];
-	} 	
-	return new_card;
-}
-
-function incrementIndexWithButton(index, current_btn) {
-	if (current_btn.id == 'next') {
-		return (index+1);
-	}
-	else if (current_btn.id == 'prev') {
-		return (index-1);
-	}
-}
-
-function getIndexOfCard(deck, current_card) {
-	return index = deck.indexOf(current_card);
-}
-
-function removeCardFromDeck(deck, card) {
-	var index = getIndexOfCard(deck, card);
-	// var learn_card = card;
-	if (index > -1) {
-		deck.splice(index, 1);
-	}
-}
-
-function updateLearning(decks, card) {
-	if (card.learnBox.checked) {
-		removeCardFromDeck(decks.new_deck, card);
-		decks.learn_deck.push(card);
-		console.log("move to learning: ", decks.learn_deck[decks.learn_deck.length-1].canvas.id);
-	} else {
-		removeCardFromDeck(decks.learn_deck, card);
-		decks.new_deck.push(card);
-		console.log("move to new: ", decks.new_deck[decks.new_deck.length-1].canvas.id);
-	}
-}
-
-function insertNewCard(doc, new_card, next_btn) {
-	if (new_card != null ) {
-		doc.body.insertBefore(new_card.canvas, next_btn);
-		doc.body.insertBefore(new_card.learnBox, next_btn);
-	}
-}
-
-function displayButtonWithNewIndex(deck, new_index, btn) {
-	btn.next.style.display = 'inline-block';
-	btn.prev.style.display = 'inline-block';
-	if (new_index == 0) {
-	    btn.prev.style.display= 'none';
-	} 
-
-	if (new_index == deck.length-1) {
-	    btn.next.style.display= 'none';
-	}
-}
-
-function getNewCardWithButton(doc, deck, current_card, btn) {
-	var index = getIndexOfCard(deck, current_card);
-	var new_index = incrementIndexWithButton(index, btn.current);
-	displayButtonWithNewIndex(deck, new_index, btn);
-	var new_card = getNewCardWithIndex(deck, current_card, new_index);
-
-	return new_card;
-}
-
-function removeCard(doc, current_card) {
-	if (current_card != null) {
-		doc.body.removeChild(current_card.canvas);
-		doc.body.removeChild(current_card.learnBox);
-	}
-}
-
-function getChoosenDeckForDisplay(decks) {
-	if (decks.display_learnDeck) 
-		return decks.learn_deck;
-	else 
-		return decks.new_deck;
-}
-
-function replaceWithNewCard(doc, decks, btn) {
-	var deck = getChoosenDeckForDisplay(decks);
-	removeCard(doc, decks.current_card);
-	var new_card = getNewCardWithButton(doc, deck, decks.current_card, btn);
-	insertNewCard(doc, new_card, btn.next);
-
-	// update to other deck after insert. Updating before can cause lost track of index -> prev button bug
-	if (decks.current_card != null && decks.display_learnDeck != decks.current_card.learnBox.checked)
-		updateLearning(decks, decks.current_card);
-
-	return new_card;
-}
-
-function filterLearningCard(doc, decks, btn) {
-	// update to destination deck before switching deck
-	if (decks.current_card != null && decks.display_learnDeck == decks.current_card.learnBox.checked)
-		updateLearning(decks, decks.current_card);
-
-	var deck = getChoosenDeckForDisplay(decks);
-	removeCard(doc, decks.current_card);
-	var new_card = deck[0];
-	displayButtonWithNewIndex(deck, 0, btn);
-	insertNewCard(doc, new_card, btn.next);
-
-	return new_card;
+function createCategoryBoxWithText(id, category) {
+	var btn = document.createElement("BUTTON");
+	btn.id = id;
+	btn.innerHTML = category;
+    btn.style.padding= '30px 64px';
+    btn.style.margin= '10px 4px';
+	btn.onclick = function(){
+	    window.location = './deck.html?category='+category;
+    };
+  return btn;
 }
 
 function createButton(doc, id) {
@@ -195,26 +44,24 @@ function createButton(doc, id) {
     btn.style.margin= '4px 2px';
     btn.style.cursor= 'pointer';
 
-    if (id == 'prev') {
-    	btn.style.display = 'none';
-    }
-
 	return btn;
 }
 
-function createCheckBox(doc, id, check) {
-	var input = doc.createElement("input");
+function createCheckBoxWithLabel(id, label_text) {
+	var input = document.createElement("input");
+	input.label = "learned";
 	input.id = id;
 	input.type = "checkbox";
-	input.checked = check;
+	input.checked = false;
+
 
 	return input;
 }
 
-function getParamFromURL(param) {
-	var url_string = window.location.href;
-	var url = new URL(url_string);
-	var value = url.searchParams.get(param);
-	return value;
+function createLabelForCheckBox(label_text) {
+	var label = document.createElement("label");
+	var text = document.createTextNode(label_text);
+	label.appendChild(text);
+	return label;
 }
 
