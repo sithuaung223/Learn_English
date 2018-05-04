@@ -37,28 +37,30 @@ function main(){
 
     prev_btn.onclick = function() {
 		flash_card_dict[current_card_btn.id].card.isLearned = isLearned.checked;
-
     	var display_deck = getDisplayDeckWithIsFiltered(deck, filtered_deck, isFiltered.checked);
+    	
 		var new_card_btn = getNewCardBtn(display_deck, current_card_btn, prev_btn);
 
 	   	current_card_btn = replaceWithNewCardBtn(current_card_btn, new_card_btn, next_btn, isLearned);
+	   	isEndDisableButton(display_deck.cards, current_card_btn, next_btn, prev_btn);
     };
     next_btn.onclick = function() {
 		flash_card_dict[current_card_btn.id].card.isLearned = isLearned.checked;
-
     	var display_deck = getDisplayDeckWithIsFiltered(deck, filtered_deck, isFiltered.checked);
+
 		var new_card_btn = getNewCardBtn(display_deck, current_card_btn, next_btn);
 
 	   	current_card_btn = replaceWithNewCardBtn(current_card_btn, new_card_btn, next_btn, isLearned);
+	   	isEndDisableButton(display_deck.cards, current_card_btn, next_btn, prev_btn);
     };
     isFiltered.onclick = function() {
 		flash_card_dict[current_card_btn.id].card.isLearned = isLearned.checked; 
-		filtered_deck = updateFilteredDeck(deck, filtered_deck);
-
 		var display_deck = getDisplayDeckWithIsFiltered(deck, filtered_deck, isFiltered.checked);
+
 		new_card_btn = display_deck.cards[0];
 
     	current_card_btn = replaceWithNewCardBtn(current_card_btn, new_card_btn, next_btn, isLearned);
+	   	isEndDisableButton(display_deck.cards, current_card_btn, next_btn, prev_btn);
     }
 
 

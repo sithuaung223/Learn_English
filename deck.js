@@ -33,6 +33,7 @@ function insertNewCard(new_card, next_btn) {
 }
 
 function getDisplayDeckWithIsFiltered(deck, filtered_deck, isFiltered) {
+	filtered_deck = updateFilteredDeck(deck, filtered_deck);
 	var display_deck = (isFiltered) ? filtered_deck : deck;
 	return display_deck;
 }
@@ -65,6 +66,10 @@ function updateFilteredDeck(deck, filtered_deck) {
     			filtered_deck.cards.push(card_btn);
     	}
     	return filtered_deck;
-
 }
-//TODO: disable button at the end of array
+
+function isEndDisableButton(cards, current_card_btn, next_btn, prev_btn) {
+   	var index = getIndexOfCard(cards, current_card_btn);
+   	prev_btn.disabled = (index <= 0 ) ? true : false;
+   	next_btn.disabled = (index >= cards.length-1) ? true : false;
+}
