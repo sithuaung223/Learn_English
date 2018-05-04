@@ -30,6 +30,7 @@ function main(){
 	var current_card_btn = deck.cards[0]
 
 	var prev_btn = createButton(document, 'prev');
+	prev_btn.disabled = true;
 	var next_btn = createButton(document, 'next');
 
 	var isLearned = createCheckBoxWithLabel("isLearned", "isLearned");
@@ -38,7 +39,7 @@ function main(){
     prev_btn.onclick = function() {
 		flash_card_dict[current_card_btn.id].card.isLearned = isLearned.checked;
     	var display_deck = getDisplayDeckWithIsFiltered(deck, filtered_deck, isFiltered.checked);
-    	
+
 		var new_card_btn = getNewCardBtn(display_deck, current_card_btn, prev_btn);
 
 	   	current_card_btn = replaceWithNewCardBtn(current_card_btn, new_card_btn, next_btn, isLearned);
