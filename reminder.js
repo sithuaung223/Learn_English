@@ -1,6 +1,10 @@
 function isRemindingDay(dateToday, dateIsLearned, remindingDayCount) {
 	console.log("dateIsLearned: ", dateIsLearned, "remindingDayCount : ", remindingDayCount);
-	return (dateToday >= (dateIsLearned+remindingDayCount)) ? true : false;
+	var reminderDate = new Date();
+	reminderDate.setDate(dateIsLearned.getDate() + remindingDayCount);
+	reminderDate.setHours(0, 0, 0, 0);
+	console.log("reminderDate: ", reminderDate);
+	return (dateToday >= reminderDate) ? true : false;
 }
 
 function getReminderCardBtn_FromFilteredDeck_WithTodayDate(dateToday, filtered_deck) {
@@ -17,6 +21,7 @@ function getReminderCardBtn_FromFilteredDeck_WithTodayDate(dateToday, filtered_d
 
 function updateRemindingDayCountWithCardBtn(isRemembered, card) {
 	card.remindingDayCount *= (isRemembered) ? 2 : 1/2;
+	card.remindingDayCount = Math.ceil(card.remindingDayCount);
 }
 
 // Thing To be deleted after testing
@@ -34,7 +39,8 @@ function reminderJS_main(filtered_deck) {
 	// Thing To be deleted after testing
 	console.log("In Reminder Function");
 	++date_increment;
-	var dateToday = NOW + date_increment;
+	var dateToday = new Date();
+	dateToday.setDate(dateToday.getDate() + date_increment);
 	console.log("dateToday: ", dateToday);
 	date_text.innerHTML = "Day: " + dateToday;
 	document.body.appendChild(date_text);
@@ -70,7 +76,7 @@ function reminderJS_main(filtered_deck) {
 		var flash_card = flash_card_dict[card_btn.id];
 		flash_card.card.dateIsLearned = dateToday;
 		updateRemindingDayCountWithCardBtn(false, flash_card.card);
-		
+
 		var new_card_btn = getNewCardBtn(reminder_card_btns, card_btn, notRemembered_btn);
 		card_btn = replaceWithNewCardBtn(card_btn, new_card_btn, br);
 
