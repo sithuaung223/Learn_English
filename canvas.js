@@ -1,5 +1,5 @@
 
-function createCardBtnWithText(id, flash_card) {
+function createCardBtnWithFlashCard(id, flash_card) {
 	var btn = document.createElement("BUTTON");
 	btn.id = id;
 	var word = flash_card.card.front_side;

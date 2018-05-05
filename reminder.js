@@ -15,8 +15,13 @@ function reminderJS_main(filtered_deck) {
 		if ( isRemindingDay(dateToday, flash_card.card.dateIsLearned, flash_card.card.remindingDayCount) ) {
 			flash_card.card.dateIsLearned = dateToday;
 
-			var isRemembered = true; // Testing click remember
+			document.body.appendChild(card_btn);
+			var isRemembered_btn = createButton(document, 'isRemembered');
+			var notRemembered_btn = createButton(document, 'notRemembered');
+			document.body.appendChild(isRemembered_btn);
+			document.body.appendChild(notRemembered_btn);
 
+			var isRemembered = true; // Testing click remember
 			flash_card.card.remindingDayCount *= (isRemembered) ? 2 : 1/2;
 			console.log("Reminding : ", flash_card.card.front_side);
 		}
