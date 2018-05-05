@@ -19,19 +19,27 @@ function updateRemindingDayCountWithCardBtn(isRemembered, card) {
 	card.remindingDayCount *= (isRemembered) ? 2 : 1/2;
 }
 
+// Thing To be deleted after testing
 var br = document.createElement("br");
+var br1 = document.createElement("br");
+var date_text = document.createElement("p1");
+// Thing To be deleted after testing
+
 var isRemembered_btn = createButton(document, 'next');
 var notRemembered_btn = createButton(document, 'next');
 isRemembered_btn.innerHTML = "isRemembered";
 notRemembered_btn.innerHTML = "notRemembered";
 
 function reminderJS_main(filtered_deck) {
-	// date simulation for testing purpose
+	// Thing To be deleted after testing
 	console.log("In Reminder Function");
 	++date_increment;
 	var dateToday = NOW + date_increment;
 	console.log("dateToday: ", dateToday);
-	// date simulation for testing purpose
+	date_text.innerHTML = "Day: " + dateToday;
+	document.body.appendChild(date_text);
+	document.body.appendChild(br1);
+	// Thing To be deleted after testing
 
 	var reminder_card_btns = getReminderCardBtn_FromFilteredDeck_WithTodayDate(dateToday, filtered_deck);
 	console.log(reminder_card_btns);
@@ -48,6 +56,7 @@ function reminderJS_main(filtered_deck) {
 		var flash_card = flash_card_dict[card_btn.id];
 		flash_card.card.dateIsLearned = dateToday;
 		updateRemindingDayCountWithCardBtn(true, flash_card.card);
+
 		var new_card_btn = getNewCardBtn(reminder_card_btns, card_btn, isRemembered_btn);
 		card_btn = replaceWithNewCardBtn(card_btn, new_card_btn, br);
 
@@ -61,6 +70,7 @@ function reminderJS_main(filtered_deck) {
 		var flash_card = flash_card_dict[card_btn.id];
 		flash_card.card.dateIsLearned = dateToday;
 		updateRemindingDayCountWithCardBtn(false, flash_card.card);
+		
 		var new_card_btn = getNewCardBtn(reminder_card_btns, card_btn, notRemembered_btn);
 		card_btn = replaceWithNewCardBtn(card_btn, new_card_btn, br);
 
@@ -74,10 +84,4 @@ function reminderJS_main(filtered_deck) {
 	document.body.appendChild(br);
 	document.body.appendChild(notRemembered_btn);
 	document.body.appendChild(isRemembered_btn);
-
-	// flash_card.card.dateIsLearned = dateToday;
-	// var isRemembered = true; // Testing click remember
-	// flash_card.card.remindingDayCount *= (isRemembered) ? 2 : 1/2;
-	// console.log("Reminding : ", flash_card.card.front_side);
-
 }

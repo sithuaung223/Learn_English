@@ -47,7 +47,7 @@ function main(){
 		var new_card_btn = getNewCardBtn(display_deck.cards, current_card_btn, prev_btn);
 
 	   	current_card_btn = replaceWithNewCardBtn(current_card_btn, new_card_btn, next_btn);
-	   	isLearned.checked = cardBtnIsLearned(new_card_btn);
+	   	isLearned.checked = cardBtnIsLearned(current_card_btn);
 	   	isEndDisableButton(display_deck.cards, current_card_btn, next_btn, prev_btn);
     };
     next_btn.onclick = function() {
@@ -58,7 +58,7 @@ function main(){
 		var new_card_btn = getNewCardBtn(display_deck.cards, current_card_btn, next_btn);
 
 	   	current_card_btn = replaceWithNewCardBtn(current_card_btn, new_card_btn, next_btn);
-	   	isLearned.checked = cardBtnIsLearned(new_card_btn);
+	   	isLearned.checked = cardBtnIsLearned(current_card_btn);
 	   	isEndDisableButton(display_deck.cards, current_card_btn, next_btn, prev_btn);
     };
     isFiltered.onclick = function() {
@@ -69,7 +69,7 @@ function main(){
 		new_card_btn = display_deck.cards[0];
 
     	current_card_btn = replaceWithNewCardBtn(current_card_btn, new_card_btn, next_btn);
-	   	isLearned.checked = cardBtnIsLearned(new_card_btn);
+	   	isLearned.checked = cardBtnIsLearned(current_card_btn);
 	   	isEndDisableButton(display_deck.cards, current_card_btn, next_btn, prev_btn);
     }
 
@@ -90,6 +90,7 @@ function main(){
 
 
 	document.write("<br>");
+	document.write("<hr>");
 	var reminder = createButton(document, 'Show Reminder Cards and Increment Day');
 	document.body.appendChild(reminder);
 	document.write("<br>");
