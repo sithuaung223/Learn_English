@@ -7,6 +7,8 @@
 
 <script>
 var flash_card_dict = {}
+var date_increment = 1;// Testing 
+var NOW = 4;// Testing new Date
 function getParamFromURL(param) {
 	var url_string = window.location.href;
 	var url = new URL(url_string);
@@ -48,7 +50,7 @@ function main(){
     };
     next_btn.onclick = function() {
 		flash_card_dict[current_card_btn.id].card.isLearned = isLearned.checked;
-		flash_card_dict[current_card_btn.id].card.dateIsLearned = 1;
+		flash_card_dict[current_card_btn.id].card.dateIsLearned = NOW;
 
     	var display_deck = getDisplayDeckWithIsFiltered(deck, filtered_deck, isFiltered.checked);
 		var new_card_btn = getNewCardBtn(display_deck, current_card_btn, next_btn);
@@ -86,16 +88,22 @@ function main(){
 	var reminder = createButton(document, 'Show Reminder In Console');
 	reminder.onclick = function() {
 		console.log("In Reminder Function");
-		var dateToday = 2;
+		var dateToday = NOW + date_increment;
+		console.log("dateToday: ", dateToday);
 
 		for (var i in filtered_deck.cards) {
 			var card_btn = filtered_deck.cards[i]
 			var flash_card = flash_card_dict[card_btn.id];
 			if ( isRemindingDay(dateToday, flash_card.card.dateIsLearned, flash_card.card.remindingDayCount) ) {
-				console.log("front_side : ", flash_card.card.front_side);
-				console.log("remindingDayCount : ", flash_card.card.remindingDayCount);
+				flash_card.card.dateIsLearned = dateToday;
+
+				var isRemembered = true; // Testing click remember
+				
+				flash_card.card.remindingDayCount *= (isRemembered) ? 2 : 1/2;
+				console.log("Reminding : ", flash_card.card.front_side);
 			}
 		}
+		++date_increment;
 	}
 	document.body.appendChild(reminder);
 

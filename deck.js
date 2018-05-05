@@ -4,7 +4,7 @@ function createCardBtn(dict, w, flash_card_dict) {
 		flipped_side: dict[w],
 		isLearned: false,
 		dateIsLearned: null,
-		remindingDayCount: 1
+		remindingDayCount: 1 
 	};
 	var flash_card = {
 		card: card,
@@ -77,5 +77,7 @@ function isEndDisableButton(cards, current_card_btn, next_btn, prev_btn) {
 }
 
 function isRemindingDay(dateToday, dateIsLearned, remindingDayCount) {
+	console.log("dateIsLearned: ", dateIsLearned);
+	console.log("remindingDayCount : ", remindingDayCount);
 	return (dateToday >= (dateIsLearned+remindingDayCount)) ? true : false;
 }
