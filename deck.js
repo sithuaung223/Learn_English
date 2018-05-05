@@ -76,8 +76,3 @@ function isEndDisableButton(cards, current_card_btn, next_btn, prev_btn) {
    	next_btn.disabled = (index >= cards.length-1) ? true : false;
 }
 
-function isRemindingDay(dateToday, dateIsLearned, remindingDayCount) {
-	console.log("dateIsLearned: ", dateIsLearned);
-	console.log("remindingDayCount : ", remindingDayCount);
-	return (dateToday >= (dateIsLearned+remindingDayCount)) ? true : false;
-}

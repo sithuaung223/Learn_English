@@ -4,6 +4,7 @@
 <script type="text/javascript" src="vocabulary.json"></script>
 <script src="canvas.js"></script>
 <script src="deck.js"></script>
+<script src="reminder.js"></script>
 
 <script>
 var flash_card_dict = {}
@@ -86,26 +87,10 @@ function main(){
 
 	document.write("<br>");
 	var reminder = createButton(document, 'Show Reminder In Console');
-	reminder.onclick = function() {
-		console.log("In Reminder Function");
-		var dateToday = NOW + date_increment;
-		console.log("dateToday: ", dateToday);
-
-		for (var i in filtered_deck.cards) {
-			var card_btn = filtered_deck.cards[i]
-			var flash_card = flash_card_dict[card_btn.id];
-			if ( isRemindingDay(dateToday, flash_card.card.dateIsLearned, flash_card.card.remindingDayCount) ) {
-				flash_card.card.dateIsLearned = dateToday;
-
-				var isRemembered = true; // Testing click remember
-				
-				flash_card.card.remindingDayCount *= (isRemembered) ? 2 : 1/2;
-				console.log("Reminding : ", flash_card.card.front_side);
-			}
-		}
-		++date_increment;
-	}
 	document.body.appendChild(reminder);
+	reminder.onclick = function() {
+		reminderJS_main(filtered_deck);
+	}
 
 }
 
