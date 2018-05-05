@@ -38,6 +38,7 @@ function main(){
 
     prev_btn.onclick = function() {
 		flash_card_dict[current_card_btn.id].card.isLearned = isLearned.checked;
+
     	var display_deck = getDisplayDeckWithIsFiltered(deck, filtered_deck, isFiltered.checked);
 
 		var new_card_btn = getNewCardBtn(display_deck, current_card_btn, prev_btn);
@@ -47,8 +48,9 @@ function main(){
     };
     next_btn.onclick = function() {
 		flash_card_dict[current_card_btn.id].card.isLearned = isLearned.checked;
-    	var display_deck = getDisplayDeckWithIsFiltered(deck, filtered_deck, isFiltered.checked);
+		flash_card_dict[current_card_btn.id].card.dateIsLearned = 1;
 
+    	var display_deck = getDisplayDeckWithIsFiltered(deck, filtered_deck, isFiltered.checked);
 		var new_card_btn = getNewCardBtn(display_deck, current_card_btn, next_btn);
 
 	   	current_card_btn = replaceWithNewCardBtn(current_card_btn, new_card_btn, next_btn, isLearned);
@@ -56,8 +58,8 @@ function main(){
     };
     isFiltered.onclick = function() {
 		flash_card_dict[current_card_btn.id].card.isLearned = isLearned.checked; 
-		var display_deck = getDisplayDeckWithIsFiltered(deck, filtered_deck, isFiltered.checked);
 
+		var display_deck = getDisplayDeckWithIsFiltered(deck, filtered_deck, isFiltered.checked);
 		new_card_btn = display_deck.cards[0];
 
     	current_card_btn = replaceWithNewCardBtn(current_card_btn, new_card_btn, next_btn, isLearned);
@@ -78,6 +80,25 @@ function main(){
 	var isFilteredLabel = createLabelForCheckBox("isFiltered");
 	document.body.appendChild(isFilteredLabel);
 	document.body.appendChild(isFiltered);
+
+
+	document.write("<br>");
+	var reminder = createButton(document, 'Show Reminder In Console');
+	reminder.onclick = function() {
+		console.log("In Reminder Function");
+		var dateToday = 2;
+
+		for (var i in filtered_deck.cards) {
+			var card_btn = filtered_deck.cards[i]
+			var flash_card = flash_card_dict[card_btn.id];
+			if ( isRemindingDay(dateToday, flash_card.card.dateIsLearned, flash_card.card.remindingDayCount) ) {
+				console.log("front_side : ", flash_card.card.front_side);
+				console.log("remindingDayCount : ", flash_card.card.remindingDayCount);
+			}
+		}
+	}
+	document.body.appendChild(reminder);
+
 }
 
 main();

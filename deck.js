@@ -2,7 +2,9 @@ function createCardBtn(dict, w, flash_card_dict) {
 	var card = {
 		front_side: w,
 		flipped_side: dict[w],
-		isLearned: false
+		isLearned: false,
+		dateIsLearned: null,
+		remindingDayCount: 1
 	};
 	var flash_card = {
 		card: card,
@@ -72,4 +74,8 @@ function isEndDisableButton(cards, current_card_btn, next_btn, prev_btn) {
    	var index = getIndexOfCard(cards, current_card_btn);
    	prev_btn.disabled = (index <= 0 ) ? true : false;
    	next_btn.disabled = (index >= cards.length-1) ? true : false;
+}
+
+function isRemindingDay(dateToday, dateIsLearned, remindingDayCount) {
+	return (dateToday >= (dateIsLearned+remindingDayCount)) ? true : false;
 }
