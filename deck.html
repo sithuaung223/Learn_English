@@ -41,31 +41,35 @@ function main(){
 
     prev_btn.onclick = function() {
 		flash_card_dict[current_card_btn.id].card.isLearned = isLearned.checked;
+		flash_card_dict[current_card_btn.id].card.dateIsLearned = (isLearned.checked) ? NOW : null;
 
     	var display_deck = getDisplayDeckWithIsFiltered(deck, filtered_deck, isFiltered.checked);
+		var new_card_btn = getNewCardBtn(display_deck.cards, current_card_btn, prev_btn);
 
-		var new_card_btn = getNewCardBtn(display_deck, current_card_btn, prev_btn);
-
-	   	current_card_btn = replaceWithNewCardBtn(current_card_btn, new_card_btn, next_btn, isLearned);
+	   	current_card_btn = replaceWithNewCardBtn(current_card_btn, new_card_btn, next_btn);
+	   	isLearned.checked = cardBtnIsLearned(new_card_btn);
 	   	isEndDisableButton(display_deck.cards, current_card_btn, next_btn, prev_btn);
     };
     next_btn.onclick = function() {
 		flash_card_dict[current_card_btn.id].card.isLearned = isLearned.checked;
-		flash_card_dict[current_card_btn.id].card.dateIsLearned = NOW;
+		flash_card_dict[current_card_btn.id].card.dateIsLearned = (isLearned.checked) ? NOW : null;
 
     	var display_deck = getDisplayDeckWithIsFiltered(deck, filtered_deck, isFiltered.checked);
-		var new_card_btn = getNewCardBtn(display_deck, current_card_btn, next_btn);
+		var new_card_btn = getNewCardBtn(display_deck.cards, current_card_btn, next_btn);
 
-	   	current_card_btn = replaceWithNewCardBtn(current_card_btn, new_card_btn, next_btn, isLearned);
+	   	current_card_btn = replaceWithNewCardBtn(current_card_btn, new_card_btn, next_btn);
+	   	isLearned.checked = cardBtnIsLearned(new_card_btn);
 	   	isEndDisableButton(display_deck.cards, current_card_btn, next_btn, prev_btn);
     };
     isFiltered.onclick = function() {
 		flash_card_dict[current_card_btn.id].card.isLearned = isLearned.checked; 
+		flash_card_dict[current_card_btn.id].card.dateIsLearned = (isLearned.checked) ? NOW : null;
 
 		var display_deck = getDisplayDeckWithIsFiltered(deck, filtered_deck, isFiltered.checked);
 		new_card_btn = display_deck.cards[0];
 
-    	current_card_btn = replaceWithNewCardBtn(current_card_btn, new_card_btn, next_btn, isLearned);
+    	current_card_btn = replaceWithNewCardBtn(current_card_btn, new_card_btn, next_btn);
+	   	isLearned.checked = cardBtnIsLearned(new_card_btn);
 	   	isEndDisableButton(display_deck.cards, current_card_btn, next_btn, prev_btn);
     }
 
@@ -86,7 +90,7 @@ function main(){
 
 
 	document.write("<br>");
-	var reminder = createButton(document, 'Show Reminder In Console');
+	var reminder = createButton(document, 'Show Reminder Cards and Increment Day');
 	document.body.appendChild(reminder);
 	document.write("<br>");
 	reminder.onclick = function() {

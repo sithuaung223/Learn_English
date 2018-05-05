@@ -40,18 +40,17 @@ function getDisplayDeckWithIsFiltered(deck, filtered_deck, isFiltered) {
 	return display_deck;
 }
 
-function getNewCardBtn(deck, current_card_btn, btn) {
-	var index = getIndexOfCard(deck.cards, current_card_btn);
+function getNewCardBtn(cards, current_card_btn, btn) {
+	var index = getIndexOfCard(cards, current_card_btn);
 	var new_card_btn = (btn.id =='next') 
-					? deck.cards[index+1]
-					: deck.cards[index-1];
+					? cards[index+1]
+					: cards[index-1];
 	return new_card_btn;
 }
 
-function replaceWithNewCardBtn(current_card_btn, new_card_btn, next_btn, isLearned) {
+function replaceWithNewCardBtn(current_card_btn, new_card_btn, next_btn) {
 	document.body.removeChild(current_card_btn);
 	insertNewCard(new_card_btn, next_btn);
-   	isLearned.checked = cardBtnIsLearned(new_card_btn);
 
 	return new_card_btn;
 }
