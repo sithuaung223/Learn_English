@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+<html>
+<body>
+<script src="canvas.js"></script>
+<script src="deck.js"></script>
+<script src="reminder.js"></script>
+<script>
+	var flash_card_dict = JSON.parse(window.localStorage.getItem("flash_card_dict")); // Retrieving
+	var meaning_dict = JSON.parse(window.localStorage.getItem("meaning_dict")); // Retrieving
+
+	var dateToday = new Date();
+	var deck = {
+		cards:[]
+	};
+	var filtered_deck = {
+		cards:[]
+	};
+
+	deck.cards = createDeckWithDictionary(meaning_dict, {});
+	filtered_deck =updateFilteredDeck(deck, filtered_deck);
+	var card_btn = null;
+
+	// Thing To be deleted after testing
+	var date_increment = 0;
+	var br1 = document.createElement("br");
+	var reminder = createButton(document, 'Show Reminder Cards and Increment Day');
+	document.body.appendChild(reminder);
+	document.write("<br>");
+	reminder.onclick = function() {
+		dateToday = newDateSimulator(filtered_deck);
+	// Thing To be deleted after testing
+		var reminder_card_btns = getReminderCardBtn_FromFilteredDeck_WithTodayDate(dateToday, filtered_deck);
+		console.log(reminder_card_btns);
+
+		if (reminder_card_btns.length <= 0)	{
+			console.log("EXIT: NO Reminder card for Today!");
+		}
+		else {
+			card_btn = reminder_card_btns[0];
+			document.body.appendChild(card_btn);
+			document.body.appendChild(br);
+			document.body.appendChild(notRemembered_btn);
+			document.body.appendChild(isRemembered_btn);	
+
+		}
+	}
+
+	var br = document.createElement("br");
+	var date_text = document.createElement("p1");
+
+	var isRemembered_btn = createButton(document, 'next');
+	var notRemembered_btn = createButton(document, 'next');
+	isRemembered_btn.innerHTML = "isRemembered";
+	notRemembered_btn.innerHTML = "notRemembered";
+
+	isRemembered_btn.onclick = function() {
+		var flash_card = flash_card_dict[card_btn.id];
+		flash_card.card.dateIsLearned = dateToday;
+		updateRemindingDayCountWithCardBtn(true, flash_card.card);
+
+		var new_card_btn = getNewCardBtn(reminder_card_btns, card_btn, isRemembered_btn);
+		card_btn = replaceWithNewCardBtn(card_btn, new_card_btn, br);
+
+		if (card_btn == null) {
+			document.body.removeChild(notRemembered_btn);
+			document.body.removeChild(isRemembered_btn);
+		}
+	}
+
+	notRemembered_btn.onclick = function() {
+		var flash_card = flash_card_dict[card_btn.id];
+		flash_card.card.dateIsLearned = dateToday;
+		updateRemindingDayCountWithCardBtn(false, flash_card.card);
+
+		var new_card_btn = getNewCardBtn(reminder_card_btns, card_btn, notRemembered_btn);
+		card_btn = replaceWithNewCardBtn(card_btn, new_card_btn, br);
+
+		if (card_btn == null) {
+			document.body.removeChild(notRemembered_btn);
+			document.body.removeChild(isRemembered_btn);
+		}
+	}
+</script>
+</body>
+</html>
+

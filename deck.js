@@ -60,13 +60,13 @@ function cardBtnIsLearned(card_btn) {
 }
 
 function updateFilteredDeck(deck, filtered_deck) {
-    	filtered_deck.cards = [];
-    	for (var i in deck.cards) {
-    		var card_btn = deck.cards[i];
-    		if (cardBtnIsLearned(card_btn))
-    			filtered_deck.cards.push(card_btn);
-    	}
-    	return filtered_deck;
+	filtered_deck.cards = [];
+	for (var i in deck.cards) {
+		var card_btn = deck.cards[i];
+		if (cardBtnIsLearned(card_btn))
+			filtered_deck.cards.push(card_btn);
+	}
+	return filtered_deck;
 }
 
 function isEndDisableButton(cards, current_card_btn, next_btn, prev_btn) {

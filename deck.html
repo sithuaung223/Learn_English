@@ -8,7 +8,6 @@
 
 <script>
 var flash_card_dict = {}
-var date_increment = 0;// Testing 
 var NOW = new Date();// Testing new Date
 function getParamFromURL(param) {
 	var url_string = window.location.href;
@@ -89,14 +88,27 @@ function main(){
 	document.body.appendChild(isFiltered);
 
 
+
+	// document.write("<br>");
+	// document.write("<hr>");
+	// var reminder = createButton(document, 'Show Reminder Cards and Increment Day');
+	// document.body.appendChild(reminder);
+	// document.write("<br>");
+	// reminder.onclick = function() {
+	// 	reminderJS_main(filtered_deck);
+	// }
+
 	document.write("<br>");
 	document.write("<hr>");
-	var reminder = createButton(document, 'Show Reminder Cards and Increment Day');
-	document.body.appendChild(reminder);
 	document.write("<br>");
+
+	var reminder = createButton(document, 'Show Reminder Page');
+	document.body.appendChild(reminder);
 	reminder.onclick = function() {
-		reminderJS_main(filtered_deck);
+		window.localStorage.setItem("flash_card_dict", JSON.stringify(flash_card_dict)); // Saving
+		window.location = './reminder.html?category='+selected_category;
 	}
+
 
 }
 
