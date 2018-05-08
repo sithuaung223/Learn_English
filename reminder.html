@@ -20,6 +20,7 @@
 	deck.cards = createDeckWithDictionary(meaning_dict, {});
 	filtered_deck =updateFilteredDeck(deck, filtered_deck);
 	var card_btn = null;
+	var reminder_card_btns = [];
 
 	// Thing To be deleted after testing
 	var date_increment = 0;
@@ -28,9 +29,9 @@
 	document.body.appendChild(reminder);
 	document.write("<br>");
 	reminder.onclick = function() {
-		dateToday = newDateSimulator(filtered_deck);
-	// Thing To be deleted after testing
-		var reminder_card_btns = getReminderCardBtn_FromFilteredDeck_WithTodayDate(dateToday, filtered_deck);
+		dateToday = newDateSimulator();
+		// Thing To be deleted after testing
+		reminder_card_btns = getReminderCardBtn_FromFilteredDeck_WithTodayDate(dateToday, filtered_deck);
 		console.log(reminder_card_btns);
 
 		if (reminder_card_btns.length <= 0)	{
@@ -42,7 +43,6 @@
 			document.body.appendChild(br);
 			document.body.appendChild(notRemembered_btn);
 			document.body.appendChild(isRemembered_btn);	
-
 		}
 	}
 

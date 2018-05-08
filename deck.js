@@ -51,7 +51,6 @@ function getNewCardBtn(cards, current_card_btn, btn) {
 function replaceWithNewCardBtn(current_card_btn, new_card_btn, next_btn) {
 	document.body.removeChild(current_card_btn);
 	insertNewCard(new_card_btn, next_btn);
-
 	return new_card_btn;
 }
 

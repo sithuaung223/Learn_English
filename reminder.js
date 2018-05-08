@@ -4,6 +4,7 @@ function isRemindingDay(dateToday, dateIsLearned, remindingDayCount) {
 	reminderDate.setDate(dateIsLearned.getDate() + remindingDayCount);
 	reminderDate.setHours(0, 0, 0, 0);
 	console.log("reminderDate: ", reminderDate);
+	
 	return (dateToday >= reminderDate) ? true : false;
 }
 
@@ -16,6 +17,7 @@ function getReminderCardBtn_FromFilteredDeck_WithTodayDate(dateToday, filtered_d
 			reminder_card_btns.push(card_btn);
 		}
 	}
+
 	return reminder_card_btns;
 }
 
@@ -25,7 +27,7 @@ function updateRemindingDayCountWithCardBtn(isRemembered, card) {
 }
 
 // Thing To be deleted after testing
-function newDateSimulator(filtered_deck) {
+function newDateSimulator() {
 	++date_increment;
 	var dateToday = new Date();
 	dateToday.setDate(dateToday.getDate() + date_increment);
@@ -33,6 +35,7 @@ function newDateSimulator(filtered_deck) {
 	date_text.innerHTML = "Day: " + dateToday;
 	document.body.appendChild(date_text);
 	document.body.appendChild(br1);
+
 	return dateToday;
 }
 // Thing To be deleted after testing

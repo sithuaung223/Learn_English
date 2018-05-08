@@ -1,4 +1,3 @@
-
 function createCardBtnWithFlashCard(id, flash_card) {
 	var btn = document.createElement("BUTTON");
 	btn.id = id;
@@ -26,6 +25,7 @@ function createCategoryBoxWithText(id, category) {
 	btn.onclick = function(){
 	    window.location = './deck.html?category='+category;
     };
+
   return btn;
 }
 
@@ -54,7 +54,6 @@ function createCheckBoxWithLabel(id, label_text) {
 	input.type = "checkbox";
 	input.checked = false;
 
-
 	return input;
 }
 
@@ -62,6 +61,7 @@ function createLabelForCheckBox(label_text) {
 	var label = document.createElement("label");
 	var text = document.createTextNode(label_text);
 	label.appendChild(text);
+
 	return label;
 }
 
