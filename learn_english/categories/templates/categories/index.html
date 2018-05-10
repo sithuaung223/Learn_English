@@ -1,0 +1,12 @@
+{% if category_list %}
+  <ul>
+  {% for category in category_list %}
+    <li> 
+      <a href="/categories/{{ category.id }}">{{category.name}}</a> 
+    </li>
+  {% endfor %}
+  </ul>
+  
+{% else %}
+  <p> No Categories are availabel. </p>
+{% endif %}

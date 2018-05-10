@@ -1,0 +1,13 @@
+{% if deck %}
+  <ul>
+  {% for card in deck %}
+    <li> 
+      {{card.name}}
+    </li>
+      <ul>
+        Meaning: {{card.meaning}}
+      </ul>
+  {% endfor %}
+  </ul>
+{% else %}
+{% endif %}
