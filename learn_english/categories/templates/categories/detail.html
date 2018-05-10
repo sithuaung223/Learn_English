@@ -12,6 +12,14 @@
 var flash_card_dict = {}
 var NOW = new Date();// Testing new Date
 
+
+{% if not meaning_dict ==  '{}' %}
+  console.log("not empty");
+  main();
+{% else %}
+  console.log("is empty");
+{% endif %}
+
 function main(){
   // var meaning_dict = JSON.parse('{{ meaning_dict | escapejs }}');
   var meaning_dict = {{ meaning_dict | safe }};
@@ -95,8 +103,6 @@ function main(){
 
 
 }
-
-main();
 </script> 
 
 </body>
