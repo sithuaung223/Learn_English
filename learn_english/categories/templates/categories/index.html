@@ -1,12 +1,25 @@
-{% if category_list %}
-  <ul>
-  {% for category in category_list %}
-    <li> 
-      <a href="/categories/{{ category.id }}">{{category.name}}</a> 
-    </li>
-  {% endfor %}
-  </ul>
-  
-{% else %}
-  <p> No Categories are availabel. </p>
-{% endif %}
+<!DOCTYPE html>
+<html>
+<head>
+	{% load static %}
+</head>
+<body>
+
+<div id="Category">
+</div>
+
+<script src={% static 'categories/canvas.js' %}></script>
+<script>
+	var div = document.getElementById("Category");
+	{% if category_list %}
+	  {% for category in category_list %}
+	      // <a href="/categories/{{ category.id }}">{{category.name}}</a> 
+		var category = createCategoryBoxWithText({{category.id}},"{{category.name}}");
+		div.appendChild(category);
+	  {% endfor %}
+	{% endif %}
+</script> 
+
+</body>
+</html>
+
