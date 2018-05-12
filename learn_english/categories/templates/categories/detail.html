@@ -19,7 +19,6 @@ var NOW = new Date();// Testing new Date
 {% else %}
   console.log("is empty");
 {% endif %}
-
 function main(){
   // var meaning_dict = JSON.parse('{{ meaning_dict | escapejs }}');
   var meaning_dict = {{ meaning_dict | safe }};
