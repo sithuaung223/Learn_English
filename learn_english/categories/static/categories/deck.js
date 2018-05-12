@@ -1,10 +1,12 @@
 function createCardBtn(dict, w, flash_card_dict) {
+	var Card = card_dict[w]
+	console.log(card_dict[w])
 	var card = {
-		front_side: w,
-		flipped_side: dict[w],
-		isLearned: false,
-		dateIsLearned: null,
-		remindingDayCount: 1 
+		front_side: Card.front_side,
+		flipped_side: Card.flipped_side,
+		isLearned: Card.isLearned,
+		dateIsLearned: Card.dateIsLearned,
+		remindingDayCount: Card.remindingDayCount 
 	};
 	var flash_card = {
 		card: card,

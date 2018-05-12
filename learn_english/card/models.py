@@ -1,5 +1,5 @@
 from django.db import models
-from categories.models import Vocabulary
+from categories.models import Category, Vocabulary
 from django.db.models.signals import post_save
 from django.utils import timezone
 
@@ -8,7 +8,7 @@ class Card(models.Model):
     front_side = models.CharField(max_length=50, blank=False)
     flipped_side = models.CharField(max_length=200, blank=False)
     isLearned = models.BooleanField(default=False)
-    dateIsLearned = models.DateTimeField(auto_now=False, auto_now_add=False, blank=True)
+    dateIsLearned = models.DateTimeField(auto_now=False, auto_now_add=False, blank=False)
     remindingDayCount = models.IntegerField(default=1)
 
     def __str__(self):

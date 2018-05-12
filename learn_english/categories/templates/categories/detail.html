@@ -13,11 +13,13 @@ var flash_card_dict = {}
 var NOW = new Date();// Testing new Date
 
 
-{% if not meaning_dict ==  '{}' %}
+{% if not meaning_dict ==  '{}' and not card_dict == '{}' %}
   console.log("not empty");
+  var card_dict = {{ card_dict | safe }};
   main();
 {% else %}
   console.log("is empty");
+  var card_dict = {};
 {% endif %}
 function main(){
   // var meaning_dict = JSON.parse('{{ meaning_dict | escapejs }}');
