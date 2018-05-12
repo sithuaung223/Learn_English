@@ -1,6 +1,5 @@
 # Create your views here.
-from django.http import HttpResponse
-from django.template import loader
+from django.shortcuts import render
 from .models import Category, Vocabulary
 from card.models import Card
 import json
@@ -8,14 +7,12 @@ from django.core import serializers
 
 def index(request):
     category_list = Category.objects.all();
-    template = loader.get_template('categories/index.html')
     context = {
         'category_list' : category_list,
     }
-    return HttpResponse(template.render(context, request))
+    return render(request, 'categories/index.html',context)
 
 def detail(request, category_id):
-    template = loader.get_template('categories/detail.html')
     selected_category_obj = Category.objects.get(id = category_id)
     vocabularies = Vocabulary.objects.filter(category=selected_category_obj)
 
@@ -31,4 +28,4 @@ def detail(request, category_id):
         'meaning_dict' : json.dumps(meaning_dict),
         'card_dict' : card_dict,
     }
-    return HttpResponse(template.render(context, request))
+    return render(request, 'categories/detail.html', context)

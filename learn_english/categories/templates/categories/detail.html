@@ -12,7 +12,6 @@
 var flash_card_dict = {}
 var NOW = new Date();// Testing new Date
 
-
 {% if not meaning_dict ==  '{}' and not card_dict == '{}' %}
   console.log("not empty");
   var card_dict = {{ card_dict | safe }};
