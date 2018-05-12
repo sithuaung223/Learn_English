@@ -1,6 +1,9 @@
 function createCardBtn(dict, w, flash_card_dict) {
-	var Card = card_dict[w]
-	console.log(card_dict[w])
+	var card_json = card_dict[w];
+	card_data = JSON.parse(card_json);
+	console.log("card_data: ", card_data);
+	var Card = card_data[0].fields;
+
 	var card = {
 		front_side: Card.front_side,
 		flipped_side: Card.flipped_side,

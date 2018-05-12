@@ -23,12 +23,12 @@ def detail(request, category_id):
     card_dict = {}
     for vocab in vocabularies:
         meaning_dict[vocab.name] = vocab.meaning
-        card = Card.objects.get(front_side=vocab.name)
-        card_data = serializers.serialize('json', [card]) 
+        card = Card.objects.filter(front_side=vocab.name)
+        card_data = serializers.serialize("json", card)
         card_dict[vocab.name] = card_data
 
     context = {
         'meaning_dict' : json.dumps(meaning_dict),
-        'card_dict' : json.dumps(card_dict),
+        'card_dict' : card_dict,
     }
     return HttpResponse(template.render(context, request))
