@@ -16,14 +16,14 @@ function createCardBtnWithFlashCard(id, flash_card) {
   return btn;
 }
 
-function createCategoryBoxWithText(id, category) {
+function createCategoryBoxWithText(id, url, category) {
 	var btn = document.createElement("BUTTON");
 	btn.id = id;
 	btn.innerHTML = category;
     btn.style.padding= '30px 64px';
     btn.style.margin= '10px 4px';
 	btn.onclick = function(){
-	    window.location = '/categories/'+id;
+	    window.location = url;
     };
 
   return btn;
