@@ -2,8 +2,10 @@
 <html>
 <head>
   {% load static %}
+
 </head>
 <body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src= {% static "categories/canvas.js" %}></script>
 <script src= {% static "categories/deck.js" %}></script>
 <!-- <script src="reminder.js"></script> -->
@@ -15,6 +17,7 @@ var NOW = new Date();// Testing new Date
 {% if not meaning_dict ==  '{}' and not card_dict == '{}' %}
   console.log("not empty");
   var card_dict = {{ card_dict | safe }};
+  console.log("card_dict",card_dict);
   main();
 {% else %}
   console.log("is empty");
@@ -23,6 +26,7 @@ var NOW = new Date();// Testing new Date
 function main(){
   // var meaning_dict = JSON.parse('{{ meaning_dict | escapejs }}');
   var meaning_dict = {{ meaning_dict | safe }};
+  console.log("meaning_dict",meaning_dict);
 
   var deck = {
     cards:[]
@@ -39,43 +43,45 @@ function main(){
   var next_btn = createButton(document, 'next');
 
   var isLearned = createCheckBoxWithLabel("isLearned", "isLearned");
+  isLearned.checked = flash_card_dict[current_card_btn.id].card.isLearned;
   var isFiltered = createCheckBoxWithLabel("isFiltered", "isFiltered");
 
-    prev_btn.onclick = function() {
-      flash_card_dict[current_card_btn.id].card.isLearned = isLearned.checked;
-      flash_card_dict[current_card_btn.id].card.dateIsLearned = (isLearned.checked) ? NOW : null;
-
-      var display_deck = getDisplayDeckWithIsFiltered(deck, filtered_deck, isFiltered.checked);
-      var new_card_btn = getNewCardBtn(display_deck.cards, current_card_btn, prev_btn);
-
-      current_card_btn = replaceWithNewCardBtn(current_card_btn, new_card_btn, next_btn);
-      isLearned.checked = cardBtnIsLearned(current_card_btn);
-      isEndDisableButton(display_deck.cards, current_card_btn, next_btn, prev_btn);
-    };
-    next_btn.onclick = function() {
-      // change here
-      flash_card_dict[current_card_btn.id].card.isLearned = isLearned.checked;
-      flash_card_dict[current_card_btn.id].card.dateIsLearned = (isLearned.checked) ? NOW : null;
-
-      var display_deck = getDisplayDeckWithIsFiltered(deck, filtered_deck, isFiltered.checked);
-      var new_card_btn = getNewCardBtn(display_deck.cards, current_card_btn, next_btn);
-
-      current_card_btn = replaceWithNewCardBtn(current_card_btn, new_card_btn, next_btn);
-      // change here
-      isLearned.checked = cardBtnIsLearned(current_card_btn);
-      isEndDisableButton(display_deck.cards, current_card_btn, next_btn, prev_btn);
-    };
-    isFiltered.onclick = function() {
-    flash_card_dict[current_card_btn.id].card.isLearned = isLearned.checked; 
+  prev_btn.onclick = function() {
+    flash_card_dict[current_card_btn.id].card.isLearned = isLearned.checked;
     flash_card_dict[current_card_btn.id].card.dateIsLearned = (isLearned.checked) ? NOW : null;
 
     var display_deck = getDisplayDeckWithIsFiltered(deck, filtered_deck, isFiltered.checked);
-    new_card_btn = display_deck.cards[0];
+    var new_card_btn = getNewCardBtn(display_deck.cards, current_card_btn, prev_btn);
 
-      current_card_btn = replaceWithNewCardBtn(current_card_btn, new_card_btn, next_btn);
-      isLearned.checked = cardBtnIsLearned(current_card_btn);
-      isEndDisableButton(display_deck.cards, current_card_btn, next_btn, prev_btn);
-    }
+    current_card_btn = replaceWithNewCardBtn(current_card_btn, new_card_btn, next_btn);
+    isLearned.checked = cardBtnIsLearned(current_card_btn);
+    isEndDisableButton(display_deck.cards, current_card_btn, next_btn, prev_btn);
+  };
+  next_btn.onclick = function() {
+    // change here
+    flash_card_dict[current_card_btn.id].card.isLearned = isLearned.checked;
+    flash_card_dict[current_card_btn.id].card.dateIsLearned = (isLearned.checked) ? NOW : null;
+
+    var display_deck = getDisplayDeckWithIsFiltered(deck, filtered_deck, isFiltered.checked);
+    var new_card_btn = getNewCardBtn(display_deck.cards, current_card_btn, next_btn);
+
+    current_card_btn = replaceWithNewCardBtn(current_card_btn, new_card_btn, next_btn);
+    // change here
+    isLearned.checked = cardBtnIsLearned(current_card_btn);
+    isEndDisableButton(display_deck.cards, current_card_btn, next_btn, prev_btn);
+  };
+  isFiltered.onclick = function() {
+  flash_card_dict[current_card_btn.id].card.isLearned = isLearned.checked; 
+  flash_card_dict[current_card_btn.id].card.dateIsLearned = (isLearned.checked) ? NOW : null;
+
+  var display_deck = getDisplayDeckWithIsFiltered(deck, filtered_deck, isFiltered.checked);
+  new_card_btn = display_deck.cards[0];
+
+    current_card_btn = replaceWithNewCardBtn(current_card_btn, new_card_btn, next_btn);
+    isLearned.checked = cardBtnIsLearned(current_card_btn);
+    isEndDisableButton(display_deck.cards, current_card_btn, next_btn, prev_btn);
+  }
+
 
 
   document.body.appendChild(prev_btn);
@@ -92,6 +98,25 @@ function main(){
   document.body.appendChild(isFilteredLabel);
   document.body.appendChild(isFiltered);
 
+  $("#isLearned").change(function () {
+    console.log( $(this)[0].checked);
+    console.log(current_card_btn.id);
+    var isLearned = $(this)[0].checked;
+    var front_side = current_card_btn.id;
+
+    $.ajax({
+      url: "{% url 'categories:update_isLearnedCard' %}",
+      data: {
+        'front_side' : front_side,
+        'isLearned' : isLearned
+      },
+      dataType: 'json',
+      success: function(data) {
+        console.log(data.name, " isLearned: ", data.val)
+      }
+    });
+
+  });
   // document.write("<br>");
   // document.write("<hr>");
   // document.write("<br>");
