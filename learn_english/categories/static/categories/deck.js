@@ -11,12 +11,32 @@ function createCardBtn(dict, w, flash_card_dict) {
 		dateIsLearned: Card.dateIsLearned,
 		remindingDayCount: Card.remindingDayCount 
 	};
+	console.log("card.dateIsLearned: ", card.dateIsLearned);
 	var flash_card = {
 		card: card,
 		isFrontSide: true
 	}
 	var card_btn = createCardBtnWithFlashCard(w, flash_card);
 	flash_card_dict[w] = flash_card;
+	return card_btn;
+}
+
+function createCardBtnWithFields(id, card_fields) {
+	var card = {
+		front_side: card_fields.front_side ,
+		flipped_side: card_fields.flipped_side,
+		isLearned: card_fields.isLearned,
+		dateIsLearned: card_fields.dateIsLearned,
+		remindingDayCount: card_fields.remindingDayCount 
+	};
+
+	var flash_card = {
+		id: id,
+		card: card,
+		isFrontSide: true
+	};
+	var card_btn = createCardBtnWithFlashCard(flash_card.id, flash_card);
+	flash_card_dict[flash_card.id] = flash_card;
 	return card_btn;
 }
 
@@ -33,9 +53,9 @@ function getIndexOfCard(cards, current_card_btn) {
 	return index = cards.indexOf(current_card_btn);
 }
 
-function insertNewCard(new_card, next_btn) {
+function insertNewCard(parent, new_card, next_btn) {
 	if (new_card != null ) {
-		document.body.insertBefore(new_card, next_btn);
+		parent.insertBefore(new_card, next_btn);
 	}
 }
 
@@ -53,9 +73,9 @@ function getNewCardBtn(cards, current_card_btn, btn) {
 	return new_card_btn;
 }
 
-function replaceWithNewCardBtn(current_card_btn, new_card_btn, next_btn) {
-	document.body.removeChild(current_card_btn);
-	insertNewCard(new_card_btn, next_btn);
+function replaceWithNewCardBtn(parent, current_card_btn, new_card_btn, next_btn) {
+	parent.removeChild(current_card_btn);
+	insertNewCard(parent, new_card_btn, next_btn);
 	return new_card_btn;
 }
 

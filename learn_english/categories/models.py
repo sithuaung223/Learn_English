@@ -9,9 +9,9 @@ class Category(models.Model):
         return self.name
 
 class Vocabulary(models.Model):
+    category = models.ForeignKey('Category', on_delete=models.CASCADE)
     name = models.CharField(max_length=50, blank=False)
     meaning = models.CharField(max_length=200, blank=False)
-    category = models.ForeignKey('Category', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name

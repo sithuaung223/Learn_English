@@ -1,10 +1,13 @@
 function createCardBtnWithFlashCard(id, flash_card) {
 	var btn = document.createElement("BUTTON");
 	btn.id = id;
+	btn.name = 'flash_card_btn';
+	btn.value = id;
 	var word = flash_card.card.front_side;
 	btn.innerHTML = word;
     btn.style.padding= '30px 64px';
     btn.style.margin= '10px 4px';
+    btn.type="button";
 
 	btn.onclick = function(){
 		flash_card.isFrontSide = !flash_card.isFrontSide;
@@ -43,6 +46,7 @@ function createButton(doc, id) {
     btn.style.fontSize= '16px';
     btn.style.margin= '4px 2px';
     btn.style.cursor= 'pointer';
+    btn.type="button";
 
 	return btn;
 }
