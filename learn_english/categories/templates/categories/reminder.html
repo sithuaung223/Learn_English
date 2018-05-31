@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  {% load static %}
+</head>
+<body>
+
+<script src= {% static "categories/canvas.js" %}></script>
+<script src= {% static "categories/deck.js" %}></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+<script type="text/javascript">
+{% if not remind_card_dict == '{}' and not meaning_dict == '{}' %}
+	var card_dict = {{ remind_card_dict | safe }};
+	console.log("remind_card_dict", card_dict);
+	main();
+{% else %}
+	console.log("isempty");
+{% endif %}
+
+function main() {
+	var meaning_dict = {{ meaning_dict | safe }}
+
+	reminder_card_btns = createDeckWithDictionary(meaning_dict, {});
+	reminder_card_btn = reminder_card_btns[0];
+
+	var br = document.createElement("br");
+
+	var isRemembered_btn = createButton(document, 'next');
+	var notRemembered_btn = createButton(document, 'next');
+	isRemembered_btn.innerHTML = "isRemembered";
+	notRemembered_btn.innerHTML = "notRemembered";
+
+	document.body.appendChild(reminder_card_btn);
+	document.body.appendChild(br);
+	document.body.appendChild(notRemembered_btn);
+	document.body.appendChild(isRemembered_btn);
+
+	isRemembered_btn.onclick = function() {
+		var isRemembered = true;
+		var  front_side = reminder_card_btn.id;
+		$.ajax({
+			url: "{% url 'categories:update_rememberedCard' %}",
+			data: {
+				'front_side': front_side,
+				'isRemembered': isRemembered,
+			},
+			dataType: 'json',
+			success: function(data) {
+				console.log("name", data.name, " isLearned.");
+		        console.log("date: ", data.dateIsLearned);
+		        console.log("remindingDayCount",data.remindingDayCount);
+			}
+
+		});
+		var new_card_btn = getNewCardBtn(reminder_card_btns, reminder_card_btn, isRemembered_btn);
+		reminder_card_btn = replaceWithNewCardBtn(reminder_card_btn, new_card_btn, br);
+
+		if (reminder_card_btn == null) {
+			document.body.removeChild(notRemembered_btn);
+			document.body.removeChild(isRemembered_btn);
+		}
+	}	
+
+	notRemembered_btn.onclick = function() {
+		var isRemembered = false;
+		var  front_side = reminder_card_btn.id;
+		$.ajax({
+			url: "{% url 'categories:update_rememberedCard' %}",
+			data: {
+				'front_side': front_side,
+				'isRemembered': isRemembered,
+			},
+			dataType: 'json',
+			success: function(data) {
+				console.log("name", data.name, " isLearned.");
+		        console.log("date: ", data.dateIsLearned);
+		        console.log("remindingDayCount",data.remindingDayCount);
+		        console.log("isRemembered",data.isRemembered);
+			}
+
+		});
+		var new_card_btn = getNewCardBtn(reminder_card_btns, reminder_card_btn, notRemembered_btn);
+		reminder_card_btn = replaceWithNewCardBtn(reminder_card_btn, new_card_btn, br);
+
+		if (reminder_card_btn == null) {
+			document.body.removeChild(notRemembered_btn);
+			document.body.removeChild(isRemembered_btn);
+		}
+	}	
+
+}
+
+</script>
+
+</body>
+</html>
