@@ -1,4 +1,5 @@
-function main(card_dict, meaning_dict){
+<script type="text/javascript">
+function render_detail(card_dict, meaning_dict){
   // var meaning_dict = JSON.parse('{{ meaning_dict | escapejs }}');
   console.log("meaning_dict",meaning_dict);
 
@@ -71,7 +72,7 @@ function main(card_dict, meaning_dict){
   var isFilteredLabel = createLabelForCheckBox("isFiltered");
   document.body.appendChild(isFilteredLabel);
   document.body.appendChild(isFiltered);
-  
+
   $("#isLearned").change(function () {
     console.log( $(this)[0].checked);
     console.log(current_card_btn.id);
@@ -92,16 +93,6 @@ function main(card_dict, meaning_dict){
     });
 
   });
-  // document.write("<br>");
-  // document.write("<hr>");
-  // document.write("<br>");
-
-  // var reminder = createButton(document, 'Show Reminder Page');
-  // document.body.appendChild(reminder);
-  // reminder.onclick = function() {
-  //   window.localStorage.setItem("flash_card_dict", JSON.stringify(flash_card_dict)); // Saving
-  //   window.location = './reminder.html?category='+selected_category;
-  // }
-
 
 }
+</script>

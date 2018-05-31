@@ -1,22 +1,22 @@
 {% extends 'categories/base.html' %}
 {% block content %}
 
+{% include "categories/render_detail.html" %} 
 <script>
   var flash_card_dict = {}
   var NOW = new Date();// Testing new Date
-
   {% if not meaning_dict ==  '{}' and not card_dict == '{}' %}
     console.log("not empty");
     var card_dict = {{ card_dict | safe }};
     var meaning_dict = {{ meaning_dict | safe }};
-    main(card_dict, meaning_dict);
     console.log("card_dict",card_dict);
+
+    render_detail(card_dict, meaning_dict);
   {% else %}
     console.log("is empty");
     var card_dict = {};
   {% endif %}
 
 </script> 
-
 {% endblock %}
 

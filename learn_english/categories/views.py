@@ -54,7 +54,7 @@ def reminder(request, category_id):
             remind_card_dict[vocab.name] = reminder_card_data
 
     context = {
-        'meaning_dict': meaning_dict,
+        'meaning_dict': json.dumps(meaning_dict),
         'remind_card_dict': remind_card_dict,
         'category_id': category_id,
     }

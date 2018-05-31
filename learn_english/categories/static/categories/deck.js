@@ -15,7 +15,7 @@ function createCardBtn(dict, w, flash_card_dict) {
 		card: card,
 		isFrontSide: true
 	}
-	var card_btn = createCardBtnWithFlashCard(w, flash_card);
+	var card_btn = createCardBtnWithFlashCard(w, flash_card, "current_card_btn");
 	flash_card_dict[w] = flash_card;
 	return card_btn;
 }
