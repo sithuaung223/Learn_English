@@ -16,6 +16,7 @@ def index(request):
     }
     return render(request, 'categories/index.html',context)
 
+
 def detail(request, category_id):
     selected_category_obj = Category.objects.get(id = category_id)
     vocabularies = Vocabulary.objects.filter(category=selected_category_obj)
@@ -55,6 +56,7 @@ def reminder(request, category_id):
     context = {
         'meaning_dict': meaning_dict,
         'remind_card_dict': remind_card_dict,
+        'category_id': category_id,
     }
     return render(request, 'categories/reminder.html',context)
 
@@ -80,6 +82,7 @@ def update_isLearnedCard(request):
         'dateIsLearned': card.dateIsLearned,
     }
     return JsonResponse(data)
+
 
 def update_rememberedCard(request):
     front_side = request.GET.get('front_side', None)

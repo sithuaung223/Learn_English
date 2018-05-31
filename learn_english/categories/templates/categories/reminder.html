@@ -13,6 +13,7 @@
 <script type="text/javascript">
 {% if not remind_card_dict == '{}' and not meaning_dict == '{}' %}
 	var card_dict = {{ remind_card_dict | safe }};
+	var category_id = {{category_id}};
 	console.log("remind_card_dict", card_dict);
 	main();
 {% else %}
@@ -52,7 +53,6 @@ function main() {
 		        console.log("date: ", data.dateIsLearned);
 		        console.log("remindingDayCount",data.remindingDayCount);
 			}
-
 		});
 		var new_card_btn = getNewCardBtn(reminder_card_btns, reminder_card_btn, isRemembered_btn);
 		reminder_card_btn = replaceWithNewCardBtn(reminder_card_btn, new_card_btn, br);
@@ -60,6 +60,7 @@ function main() {
 		if (reminder_card_btn == null) {
 			document.body.removeChild(notRemembered_btn);
 			document.body.removeChild(isRemembered_btn);
+			window.location.replace("{% url 'categories:detail' category_id %}")
 		}
 	}	
 
@@ -87,6 +88,7 @@ function main() {
 		if (reminder_card_btn == null) {
 			document.body.removeChild(notRemembered_btn);
 			document.body.removeChild(isRemembered_btn);
+			window.location.replace("{% url 'categories:detail' category_id %}")
 		}
 	}	
 
