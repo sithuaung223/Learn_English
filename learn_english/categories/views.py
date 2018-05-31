@@ -5,6 +5,7 @@ from card.models import Card
 import json
 from django.core import serializers
 from django.http import JsonResponse
+from django.utils import timezone
 
 def index(request):
     category_list = Category.objects.all();
@@ -37,10 +38,17 @@ def update_isLearnedCard(request):
 
     card = Card.objects.get(front_side = front_side)
     card.isLearned = (isLearned == 'true')
-    card.save(update_fields = ["isLearned"])
+
+    # change datetime to local timezone
+    local_time = timezone.localtime(timezone.now())
+    local_date = local_time.date()
+    card.dateIsLearned = local_date
+
+    card.save(update_fields = ["isLearned", "dateIsLearned"])
 
     data = {
         'name': card.front_side,
         'val': card.isLearned,
+        'dateIsLearned': card.dateIsLearned,
     }
     return JsonResponse(data)

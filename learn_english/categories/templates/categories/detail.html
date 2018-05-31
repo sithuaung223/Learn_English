@@ -112,7 +112,8 @@ function main(){
       },
       dataType: 'json',
       success: function(data) {
-        console.log(data.name, " isLearned: ", data.val)
+        console.log(data.name, " isLearned: ", data.val);
+        console.log("date: ", data.dateIsLearned);
       }
     });
 
