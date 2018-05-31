@@ -1,14 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-  {% load static %}
-</head>
-<body>
-
-<script src= {% static "categories/canvas.js" %}></script>
-<script src= {% static "categories/deck.js" %}></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
+{% extends 'categories/base.html' %}
+{% block content %}
 
 <script type="text/javascript">
 {% if not remind_card_dict == '{}' and not meaning_dict == '{}' %}
@@ -95,6 +86,4 @@ function main() {
 }
 
 </script>
-
-</body>
-</html>
+{% endblock %}

@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-	{% load static %}
-</head>
-<body>
+{% extends 'categories/base.html' %}
+{% block content %}
 
 <div id="Category">
 </div>
 
-<script src={% static 'categories/canvas.js' %}></script>
 <script>
 	var div = document.getElementById("Category");
 	{% if category_list %}
@@ -20,6 +15,6 @@
 	{% endif %}
 </script> 
 
-</body>
-</html>
+{% endblock %}
+
 
