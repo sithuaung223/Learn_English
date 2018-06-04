@@ -1,0 +1,13 @@
+:root {
+}
+
+button#prev, button#next{
+	/*variable*/
+	--color: #4CAF50 ;
+
+	/*css*/
+	background-color: var(--color);
+	border-color: var(--color);
+	height: var(--h);
+}
+

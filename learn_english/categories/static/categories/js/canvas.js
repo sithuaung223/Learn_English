@@ -38,16 +38,16 @@ function createButton(doc, id) {
 	btn.id = id;
 	btn.innerHTML = id;
 
-	btn.style.backgroundColor='#4CAF50';
-    btn.style.border= 'none';
-    btn.style.padding= '15px 32px';
-    btn.style.textAlign= 'center';
-    btn.style.textDecoration= 'none';
-    btn.style.display= 'inline-block';
-    btn.style.fontSize= '16px';
-    btn.style.margin= '4px 2px';
-    btn.style.cursor= 'pointer';
-    btn.className += 'btn btn-primary';
+	// btn.style.backgroundColor='#4CAF50';
+ //    btn.style.border= 'none';
+ //    btn.style.padding= '15px 32px';
+ //    btn.style.textAlign= 'center';
+ //    btn.style.textDecoration= 'none';
+ //    btn.style.display= 'inline-block';
+ //    btn.style.fontSize= '16px';
+ //    btn.style.margin= '4px 2px';
+ //    btn.style.cursor= 'pointer';
+    btn.className += 'btn btn-secondary';
 
 	return btn;
 }
