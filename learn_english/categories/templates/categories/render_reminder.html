@@ -1,5 +1,6 @@
 <script type="text/javascript">
-function render_reminder() {
+function render_reminder(doc) {
+	console.log(doc);
 	var meaning_dict = {{ meaning_dict | safe }}
 
 	reminder_card_btns = createDeckWithDictionary(meaning_dict, {});
@@ -14,10 +15,10 @@ function render_reminder() {
 	notRemembered_btn.innerHTML = "notRemembered";
 	notRemembered_btn.name = "notRemembered";
 
-	document.body.appendChild(reminder_card_btn);
-	document.body.appendChild(br);
-	document.body.appendChild(notRemembered_btn);
-	document.body.appendChild(isRemembered_btn);
+	doc.appendChild(reminder_card_btn);
+	doc.appendChild(br);
+	doc.appendChild(notRemembered_btn);
+	doc.appendChild(isRemembered_btn);
 
 	isRemembered_btn.onclick = function() {
 		var isRemembered = true;
@@ -36,11 +37,12 @@ function render_reminder() {
 			}
 		});
 		var new_card_btn = getNewCardBtn(reminder_card_btns, reminder_card_btn, isRemembered_btn);
-		reminder_card_btn = replaceWithNewCardBtn(reminder_card_btn, new_card_btn, br);
+		reminder_card_btn = replaceWithNewCardBtnInDiv(doc, reminder_card_btn, new_card_btn, br);
 
 		if (reminder_card_btn == null) {
-			document.body.removeChild(notRemembered_btn);
-			document.body.removeChild(isRemembered_btn);
+			doc.removeChild(notRemembered_btn);
+			doc.removeChild(isRemembered_btn);
+	   		$('#myModal').modal('hide');
 			window.location.replace("{% url 'categories:detail' category_id %}")
 		}
 	}	
@@ -64,11 +66,12 @@ function render_reminder() {
 
 		});
 		var new_card_btn = getNewCardBtn(reminder_card_btns, reminder_card_btn, notRemembered_btn);
-		reminder_card_btn = replaceWithNewCardBtn(reminder_card_btn, new_card_btn, br);
+		reminder_card_btn = replaceWithNewCardBtnInDiv(doc, reminder_card_btn, new_card_btn, br);
 
 		if (reminder_card_btn == null) {
-			document.body.removeChild(notRemembered_btn);
-			document.body.removeChild(isRemembered_btn);
+			doc.removeChild(notRemembered_btn);
+			doc.removeChild(isRemembered_btn);
+	   		$('#myModal').modal('hide');
 			window.location.replace("{% url 'categories:detail' category_id %}")
 		}
 	}	

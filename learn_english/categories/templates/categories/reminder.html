@@ -4,6 +4,25 @@
 {% load static %}
 <link rel="stylesheet" href={% static "categories/css/reminder.css" %}>
 
+<!-- The Modal -->
+<div class="modal fade" id="myModal">
+	<div class="modal-dialog">
+	  <div class="modal-content">
+	  
+	    <!-- Modal Header -->
+	    <div class="modal-header">
+	      <h4 class="modal-title">Reminder </h4>
+	    </div>
+	    
+	    <!-- Modal body -->
+	    <div id='modalBody' class="modal-body">
+	    </div>
+	    
+	  </div>
+	</div>
+</div>
+
+
 {% include "categories/render_reminder.html" %}
 <script type="text/javascript">
 	{% if not remind_card_dict == '{}' and not meaning_dict == '{}' %}
@@ -11,10 +30,17 @@
 		var category_id = {{category_id}};
 		console.log("remind_card_dict", card_dict);
 
-		render_reminder();
+		$(document).ready(function(){
+			$('#myModal').modal({backdrop: 'static', keyboard: false})  
+			$("#myModal").modal();
+		});
+		var parent = document.getElementById('modalBody');
+		render_reminder(parent);
 	{% else %}
 		console.log("isempty");
 		window.location.replace("{% url 'categories:detail' category_id %}");
 	{% endif %}
 </script>
+
+
 {% endblock %}

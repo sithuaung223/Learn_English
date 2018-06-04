@@ -59,6 +59,21 @@ function replaceWithNewCardBtn(current_card_btn, new_card_btn, next_btn) {
 	return new_card_btn;
 }
 
+// ------------ function for reminder modal pop up ----------------   
+function replaceWithNewCardBtnInDiv(div, current_card_btn, new_card_btn, next_btn) {
+	div.removeChild(current_card_btn);
+	insertNewCardInDiv(div, new_card_btn, next_btn);
+	return new_card_btn;
+}
+
+function insertNewCardInDiv(div, new_card, next_btn) {
+	if (new_card != null ) {
+		div.insertBefore(new_card, next_btn);
+	}
+}
+
+// ------------ function for reminder modal pop up -----------------
+
 function cardBtnIsLearned(card_btn) {
 	return flash_card_dict[ card_btn.id ].card.isLearned;
 }
