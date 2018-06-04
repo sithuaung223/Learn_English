@@ -1,5 +1,9 @@
 {% extends 'categories/base.html' %}
 {% block content %}
+
+{% load static %}
+<link rel="stylesheet" href={% static "categories/css/reminder.css" %}>
+
 {% include "categories/render_reminder.html" %}
 <script type="text/javascript">
 	{% if not remind_card_dict == '{}' and not meaning_dict == '{}' %}

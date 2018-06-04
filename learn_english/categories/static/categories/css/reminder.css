@@ -1,0 +1,24 @@
+button[name="isRemembered"] {
+	/*variable*/
+	--color: green;
+
+	/*css*/
+	background-color : var(--color);
+	border-color: var(--color);
+}
+
+button[name="notRemembered"] {
+	/*variable*/
+	--color: LightCoral;
+
+	/*css*/
+	background-color: var(--color);
+	border-color: var(--color);
+}
+
+button[name="isRemembered"], button[name="notRemembered"] {
+	/*variable*/
+	/*css*/
+	margin: 1% 1%;
+
+}

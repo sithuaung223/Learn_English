@@ -47,7 +47,7 @@ function createButton(doc, id) {
  //    btn.style.fontSize= '16px';
  //    btn.style.margin= '4px 2px';
  //    btn.style.cursor= 'pointer';
-    btn.className += 'btn btn-secondary';
+    btn.className = 'btn btn-secondary';
 
 	return btn;
 }

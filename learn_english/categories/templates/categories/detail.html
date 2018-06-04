@@ -1,6 +1,9 @@
 {% extends 'categories/base.html' %}
 {% block content %}
 
+{% load static %}
+<link rel="stylesheet" href={% static "categories/css/detail.css" %}>
+
 {% include "categories/render_detail.html" %} 
 <script>
   var flash_card_dict = {}

@@ -10,7 +10,9 @@ function render_reminder() {
 	var isRemembered_btn = createButton(document, 'next');
 	var notRemembered_btn = createButton(document, 'next');
 	isRemembered_btn.innerHTML = "isRemembered";
+	isRemembered_btn.name = "isRemembered";
 	notRemembered_btn.innerHTML = "notRemembered";
+	notRemembered_btn.name = "notRemembered";
 
 	document.body.appendChild(reminder_card_btn);
 	document.body.appendChild(br);
