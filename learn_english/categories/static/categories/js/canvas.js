@@ -4,8 +4,9 @@ function createCardBtnWithFlashCard(id, flash_card, name) {
 	btn.name = name;
 	var word = flash_card.card.front_side;
 	btn.innerHTML = word;
-    btn.style.padding= '30px 64px';
-    btn.style.margin= '10px 4px';
+    // btn.style.padding= '30px 64px';
+    // btn.style.margin= '10px 4px';
+    btn.className = 'btn btn-info';
 
 	btn.onclick = function(){
 		flash_card.isFrontSide = !flash_card.isFrontSide;
@@ -21,8 +22,10 @@ function createCategoryBoxWithText(id, url, category) {
 	var btn = document.createElement("BUTTON");
 	btn.id = id;
 	btn.innerHTML = category;
-    btn.style.padding= '30px 64px';
-    btn.style.margin= '10px 4px';
+    // btn.style.padding= '30px 64px';
+    // btn.style.margin= '10px 4px';
+    btn.className = 'btn btn-info';
+
 	btn.onclick = function(){
 	    window.location = url;
     };
@@ -44,6 +47,7 @@ function createButton(doc, id) {
     btn.style.fontSize= '16px';
     btn.style.margin= '4px 2px';
     btn.style.cursor= 'pointer';
+    btn.className += 'btn btn-primary';
 
 	return btn;
 }

@@ -1,0 +1,16 @@
+html, body, div {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	text-align: center;
+}
+
+div#Category > button, button[name = "current_card_btn"] {
+	/*--w: 50%;*/
+	width: 50%;
+	height: 50%;
+	/*margin: 1% calc( (100% - var(--w))/2);*/
+	margin: 1% 1%;
+	font-size: 250%;
+}	
+

@@ -2,9 +2,18 @@
 <html>
 <head>
 	{% load static %}
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+	<!-- jQuery library -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script src= {% static "categories/canvas.js" %}></script>
-	<script src= {% static "categories/deck.js" %}></script>
+	<!-- Popper JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+	<script src= {% static "categories/js/canvas.js" %}></script>
+	<script src= {% static "categories/js/deck.js" %}></script>
+	<link rel="stylesheet" href={% static "categories/css/canvas.css" %}>
+
 </head>
 <body>
 	{% block content %}
