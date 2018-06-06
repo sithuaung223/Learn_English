@@ -20,16 +20,20 @@
 		var category_id = {{category_id}};
 		console.log("remind_card_dict", card_dict);
 
-	    var modal = document.querySelector(".reminder_modal");
-	    setTimeout(toggleModal, 500)
-	    function toggleModal() {
-	        modal.classList.toggle("reminder_show-modal");
+	    function openReminderModal() {
+	        modal.classList.add("reminder_show-modal");
 	    }
+	    function closeReminderModal() {
+	        modal.classList.remove("reminder_show-modal");
+			window.location.replace("{% url 'categories:detail' category_id %}");
+	    }
+
+	    var modal = document.querySelector(".reminder_modal");
+	    setTimeout(openReminderModal, 500)
         var closeButton = document.querySelector(".reminder_close-button");
-        closeButton.addEventListener("click", toggleModal);
-
-
+        closeButton.addEventListener("click", closeReminderModal);
 		console.log(modal);
+		
 		var parent = document.getElementById('reminderModalBody');
 		render_reminder(parent);
 	{% else %}
