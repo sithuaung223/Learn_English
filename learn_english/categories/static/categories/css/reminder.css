@@ -22,3 +22,49 @@ button[name="isRemembered"], button[name="notRemembered"] {
 	margin: 1% 1%;
 
 }
+
+.reminder_modal {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.1);
+    transition: visibility 0.5s linear 0.25s, opacity 0.5s 0s, transform 0.25s;
+}
+.reminder_modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    background-color: transparent;
+    padding: 1rem 1.5rem;
+    /*width: 24rem;*/
+    width: 80%;
+    height: 80%;
+    border-radius: 0.5rem;
+}
+.reminder_close-button {
+    float: right;
+    width: 6rem;
+    line-height: 3rem;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    background-color: lightgray;
+    font-size: 200%;
+}
+.reminder_close-button:hover {
+    background-color: darkgray;
+
+}
+.reminder_show-modal {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1.0);
+    transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+}
+	

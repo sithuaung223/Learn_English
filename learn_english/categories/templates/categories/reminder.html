@@ -5,27 +5,9 @@
 <link rel="stylesheet" href={% static "categories/css/reminder.css" %}>
 
 <!-- The Modal -->
-<div class="modal fade" id="myModal">
-	<div id="reminderModal" class="modal-dialog">
-	  <div id="reminderContent" class="modal-content">
-	  
-	    <!-- Modal Header -->
-	    <div class="modal-header">
-	      <h4 class="modal-title">Reminder </h4>
-	    </div>
-	    
-	    <!-- Modal body -->
-	    <div id='modalBody' class="modal-body">
-	    </div>
-	    
-	  </div>
-	</div>
-</div>
-
- <div class="modal">
-    <div class="modal-content">
-        <span class="close-button">&times;</span>
-        <h1>Hello, I am a modal!</h1>
+<div id="reminderModal" class="reminder_modal">
+	<span class="reminder_close-button">Skip</span>
+    <div id="reminderModalBody" class="reminder_modal-content">
     </div>
 </div>
 	
@@ -38,11 +20,17 @@
 		var category_id = {{category_id}};
 		console.log("remind_card_dict", card_dict);
 
-		$(document).ready(function(){
-			$('#myModal').modal({backdrop: 'static', keyboard: false})  
-			$("#myModal").modal();
-		});
-		var parent = document.getElementById('modalBody');
+	    var modal = document.querySelector(".reminder_modal");
+	    setTimeout(toggleModal, 500)
+	    function toggleModal() {
+	        modal.classList.toggle("reminder_show-modal");
+	    }
+        var closeButton = document.querySelector(".reminder_close-button");
+        closeButton.addEventListener("click", toggleModal);
+
+
+		console.log(modal);
+		var parent = document.getElementById('reminderModalBody');
 		render_reminder(parent);
 	{% else %}
 		console.log("isempty");
