@@ -1,84 +1,41 @@
 <script type="text/javascript">
-function render_detail(card_dict, meaning_dict){
-  // var meaning_dict = JSON.parse('{{ meaning_dict | escapejs }}');
-  console.log("meaning_dict",meaning_dict);
+var deck;
+var filtered_deck;
+var current_card_btn;
+var prev_btn;
+var next_btn;
+var isLearned;
+var isFiltered;
 
-  var deck = {
-    cards:[]
-  };
-  var filtered_deck = {
-    cards:[]
-  };
-
-  deck.cards = createDeckWithDictionary(meaning_dict, flash_card_dict);
-  var current_card_btn = deck.cards[0]
-
-  var prev_btn = createButton(document, 'prev');
-  prev_btn.disabled = true;
-  var next_btn = createButton(document, 'next');
-
-  var isLearned = createCheckBoxWithLabel("isLearned", "isLearned");
-  isLearned.checked = flash_card_dict[current_card_btn.id].card.isLearned;
-  var isFiltered = createCheckBoxWithLabel("isFiltered", "isFiltered");
-
-  prev_btn.onclick = function() {
+function btnClick(clicked_btn) {
     flash_card_dict[current_card_btn.id].card.isLearned = isLearned.checked;
     flash_card_dict[current_card_btn.id].card.dateIsLearned = (isLearned.checked) ? NOW : null;
 
     var display_deck = getDisplayDeckWithIsFiltered(deck, filtered_deck, isFiltered.checked);
-    var new_card_btn = getNewCardBtn(display_deck.cards, current_card_btn, prev_btn);
+    var new_card_btn = getNewCardBtn(display_deck.cards, current_card_btn, clicked_btn);
 
     current_card_btn = replaceWithNewCardBtn(current_card_btn, new_card_btn, next_btn);
     isLearned.checked = cardBtnIsLearned(current_card_btn);
     isEndDisableButton(display_deck.cards, current_card_btn, next_btn, prev_btn);
-  };
-  next_btn.onclick = function() {
-    // change here
-    flash_card_dict[current_card_btn.id].card.isLearned = isLearned.checked;
+}
+
+function isFilteredToggle() {
+    flash_card_dict[current_card_btn.id].card.isLearned = isLearned.checked; 
     flash_card_dict[current_card_btn.id].card.dateIsLearned = (isLearned.checked) ? NOW : null;
 
     var display_deck = getDisplayDeckWithIsFiltered(deck, filtered_deck, isFiltered.checked);
-    var new_card_btn = getNewCardBtn(display_deck.cards, current_card_btn, next_btn);
-
-    current_card_btn = replaceWithNewCardBtn(current_card_btn, new_card_btn, next_btn);
-    // change here
-    isLearned.checked = cardBtnIsLearned(current_card_btn);
-    isEndDisableButton(display_deck.cards, current_card_btn, next_btn, prev_btn);
-  };
-  isFiltered.onclick = function() {
-  flash_card_dict[current_card_btn.id].card.isLearned = isLearned.checked; 
-  flash_card_dict[current_card_btn.id].card.dateIsLearned = (isLearned.checked) ? NOW : null;
-
-  var display_deck = getDisplayDeckWithIsFiltered(deck, filtered_deck, isFiltered.checked);
-  new_card_btn = display_deck.cards[0];
+    new_card_btn = display_deck.cards[0];
 
     current_card_btn = replaceWithNewCardBtn(current_card_btn, new_card_btn, next_btn);
     isLearned.checked = cardBtnIsLearned(current_card_btn);
     isEndDisableButton(display_deck.cards, current_card_btn, next_btn, prev_btn);
-  }
+}
 
-
-
-  document.body.appendChild(prev_btn);
-  document.body.appendChild(current_card_btn);
-  document.body.appendChild(next_btn);
-  
-  document.write("<br>");
-  var isLearnedLabel = createLabelForCheckBox("isLearned");
-  document.body.appendChild(isLearnedLabel);
-  document.body.appendChild(isLearned);
-
-  document.write("<br>");
-  var isFilteredLabel = createLabelForCheckBox("isFiltered");
-  document.body.appendChild(isFilteredLabel);
-  document.body.appendChild(isFiltered);
-
-  $("#isLearned").change(function () {
-    console.log( $(this)[0].checked);
+function isLearnedToggle(check_box) {
+    console.log(check_box.checked);
     console.log(current_card_btn.id);
-    var isLearned = $(this)[0].checked;
+    var isLearned = check_box.checked;
     var front_side = current_card_btn.id;
-
     $.ajax({
       url: "{% url 'categories:update_isLearnedCard' %}",
       data: {
@@ -91,8 +48,50 @@ function render_detail(card_dict, meaning_dict){
         console.log("date: ", data.dateIsLearned);
       }
     });
+}
 
-  });
+function render_detail(card_dict, meaning_dict){
+  console.log("meaning_dict",meaning_dict);
 
+  deck = {
+    cards:[]
+  };
+  filtered_deck = {
+    cards:[]
+  };
+
+  deck.cards = createDeckWithDictionary(meaning_dict, flash_card_dict);
+  prev_btn = createButton(document, 'prev');
+  next_btn = createButton(document, 'next');
+  isLearned = createCheckBoxWithLabel("isLearned", "isLearned");
+  isFiltered = createCheckBoxWithLabel("isFiltered", "isFiltered");
+
+  current_card_btn = deck.cards[0]
+  prev_btn.disabled = true;
+  isLearned.checked = flash_card_dict[current_card_btn.id].card.isLearned;
+
+  prev_btn.onclick = function() {
+    btnClick(this);
+  }
+  next_btn.onclick = function() {
+    btnClick(this);
+  }
+  isLearned.onclick = function() {
+    isLearnedToggle(this);
+  } 
+  isFiltered.onclick = isFilteredToggle;
+
+  var isLearnedLabel = createLabelForCheckBox("isLearned");
+  var isFilteredLabel = createLabelForCheckBox("isFiltered");
+
+  document.body.appendChild(prev_btn);
+  document.body.appendChild(current_card_btn);
+  document.body.appendChild(next_btn);
+  document.write("<br>");
+  document.body.appendChild(isLearnedLabel);
+  document.body.appendChild(isLearned);
+  document.write("<br>");
+  document.body.appendChild(isFilteredLabel);
+  document.body.appendChild(isFiltered);
 }
 </script>

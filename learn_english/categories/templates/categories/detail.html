@@ -9,11 +9,10 @@
   var flash_card_dict = {}
   var NOW = new Date();// Testing new Date
   {% if not meaning_dict ==  '{}' and not card_dict == '{}' %}
-    console.log("not empty");
     var card_dict = {{ card_dict | safe }};
     var meaning_dict = {{ meaning_dict | safe }};
-    console.log("card_dict",card_dict);
 
+    console.log("card_dict",card_dict);
     render_detail(card_dict, meaning_dict);
   {% else %}
     console.log("is empty");
