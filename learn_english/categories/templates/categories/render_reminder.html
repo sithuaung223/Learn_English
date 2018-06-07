@@ -34,6 +34,7 @@ function RememberButtonClick(isRemembered) {
 	}
 }
 
+
 function render_reminder(parent_doc) {
 	doc = parent_doc;
 	var meaning_dict = {{ meaning_dict | safe }}
@@ -59,5 +60,4 @@ function render_reminder(parent_doc) {
 	doc.appendChild(notRemembered_btn);
 	doc.appendChild(isRemembered_btn);
 }
-
 </script>

@@ -19,6 +19,7 @@ function btnClick(clicked_btn) {
     isEndDisableButton(display_deck.cards, current_card_btn, next_btn, prev_btn);
 }
 
+
 function isFilteredToggle() {
     flash_card_dict[current_card_btn.id].card.isLearned = isLearned.checked; 
     flash_card_dict[current_card_btn.id].card.dateIsLearned = (isLearned.checked) ? NOW : null;
@@ -30,6 +31,7 @@ function isFilteredToggle() {
     isLearned.checked = cardBtnIsLearned(current_card_btn);
     isEndDisableButton(display_deck.cards, current_card_btn, next_btn, prev_btn);
 }
+
 
 function isLearnedToggle(check_box) {
     console.log(check_box.checked);
@@ -49,6 +51,7 @@ function isLearnedToggle(check_box) {
       }
     });
 }
+
 
 function render_detail(card_dict, meaning_dict){
   console.log("meaning_dict",meaning_dict);
