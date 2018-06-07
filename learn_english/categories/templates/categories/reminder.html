@@ -6,36 +6,33 @@
 
 <!-- The Modal -->
 <div id="reminderModal" class="reminder_modal">
-	<span class="reminder_close-button">Skip</span>
+	<span id="reminderCloseBtn" class="reminder_close-button">Skip</span>
     <div id="reminderModalBody" class="reminder_modal-content">
     </div>
 </div>
 	
 
-
 {% include "categories/render_reminder.html" %}
 <script type="text/javascript">
+    function openReminderModal() {
+        modal.classList.add("reminder_show-modal");
+    }
+    function closeReminderModal() {
+        modal.classList.remove("reminder_show-modal");
+		window.location.replace("{% url 'categories:detail' category_id %}");
+    }
+
 	{% if not remind_card_dict == '{}' and not meaning_dict == '{}' %}
 		var card_dict = {{ remind_card_dict | safe }};
 		var category_id = {{category_id}};
+	    var modal = document.getElementById("reminderModal");
+        var closeButton = document.getElementById("reminderCloseBtn");
+		var parent_doc = document.getElementById('reminderModalBody');
+
 		console.log("remind_card_dict", card_dict);
-
-	    function openReminderModal() {
-	        modal.classList.add("reminder_show-modal");
-	    }
-	    function closeReminderModal() {
-	        modal.classList.remove("reminder_show-modal");
-			window.location.replace("{% url 'categories:detail' category_id %}");
-	    }
-
-	    var modal = document.querySelector(".reminder_modal");
-	    setTimeout(openReminderModal, 500)
-        var closeButton = document.querySelector(".reminder_close-button");
-        closeButton.addEventListener("click", closeReminderModal);
-		console.log(modal);
-		
-		var parent = document.getElementById('reminderModalBody');
-		render_reminder(parent);
+	    setTimeout(openReminderModal, 300)
+	    closeButton.addEventListener("click", closeReminderModal);
+		render_reminder(parent_doc);
 	{% else %}
 		console.log("isempty");
 		window.location.replace("{% url 'categories:detail' category_id %}");
