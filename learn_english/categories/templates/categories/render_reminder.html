@@ -1,80 +1,63 @@
 <script type="text/javascript">
-function render_reminder(doc) {
-	console.log(doc);
-	var meaning_dict = {{ meaning_dict | safe }}
+var reminder_card_btns;
+var reminder_card_btn;
+var isRemembered_btn;
+var notRemembered_btn;
+var doc;
+var br = document.createElement("br");
 
+function RememberButtonClick(isRemembered) {
+	var  front_side = reminder_card_btn.id;
+
+	$.ajax({
+		url: "{% url 'categories:update_rememberedCard' %}",
+		data: {
+			'front_side': front_side,
+			'isRemembered': isRemembered,
+		},
+		dataType: 'json',
+		success: function(data) {
+			console.log("name", data.name, " isLearned.");
+	        console.log("date: ", data.dateIsLearned);
+	        console.log("remindingDayCount",data.remindingDayCount);
+		}
+	});
+	
+	var new_card_btn = getNewCardBtn(reminder_card_btns, reminder_card_btn, isRemembered_btn);
+	reminder_card_btn = replaceWithNewCardBtnInDiv(doc, reminder_card_btn, new_card_btn, br);
+
+	if (reminder_card_btn == null) {
+		doc.removeChild(notRemembered_btn);
+		doc.removeChild(isRemembered_btn);
+   		$('#myModal').modal('hide');
+		window.location.replace("{% url 'categories:detail' category_id %}")
+	}
+}
+
+function render_reminder(parent_doc) {
+	doc = parent_doc;
+	var meaning_dict = {{ meaning_dict | safe }}
 	reminder_card_btns = createDeckWithDictionary(meaning_dict, {});
 	reminder_card_btn = reminder_card_btns[0];
 
-	var br = document.createElement("br");
-
-	var isRemembered_btn = createButton(document, 'next');
-	var notRemembered_btn = createButton(document, 'next');
-	isRemembered_btn.innerHTML = "isRemembered";
+	isRemembered_btn = createButton(document, 'next');
 	isRemembered_btn.name = "isRemembered";
+	isRemembered_btn.innerHTML = "isRemembered";
+	isRemembered_btn.onclick = function() {
+		RememberButtonClick(true);
+	};
+
+	notRemembered_btn = createButton(document, 'next');
 	notRemembered_btn.innerHTML = "notRemembered";
 	notRemembered_btn.name = "notRemembered";
+	notRemembered_btn.onclick = function() {
+		RememberButtonClick(false);
+	};
 
 	doc.appendChild(reminder_card_btn);
 	doc.appendChild(br);
 	doc.appendChild(notRemembered_btn);
 	doc.appendChild(isRemembered_btn);
-
-	isRemembered_btn.onclick = function() {
-		var isRemembered = true;
-		var  front_side = reminder_card_btn.id;
-		$.ajax({
-			url: "{% url 'categories:update_rememberedCard' %}",
-			data: {
-				'front_side': front_side,
-				'isRemembered': isRemembered,
-			},
-			dataType: 'json',
-			success: function(data) {
-				console.log("name", data.name, " isLearned.");
-		        console.log("date: ", data.dateIsLearned);
-		        console.log("remindingDayCount",data.remindingDayCount);
-			}
-		});
-		var new_card_btn = getNewCardBtn(reminder_card_btns, reminder_card_btn, isRemembered_btn);
-		reminder_card_btn = replaceWithNewCardBtnInDiv(doc, reminder_card_btn, new_card_btn, br);
-
-		if (reminder_card_btn == null) {
-			doc.removeChild(notRemembered_btn);
-			doc.removeChild(isRemembered_btn);
-	   		$('#myModal').modal('hide');
-			window.location.replace("{% url 'categories:detail' category_id %}")
-		}
-	}	
-
-	notRemembered_btn.onclick = function() {
-		var isRemembered = false;
-		var  front_side = reminder_card_btn.id;
-		$.ajax({
-			url: "{% url 'categories:update_rememberedCard' %}",
-			data: {
-				'front_side': front_side,
-				'isRemembered': isRemembered,
-			},
-			dataType: 'json',
-			success: function(data) {
-				console.log("name", data.name, " isLearned.");
-		        console.log("date: ", data.dateIsLearned);
-		        console.log("remindingDayCount",data.remindingDayCount);
-		        console.log("isRemembered",data.isRemembered);
-			}
-
-		});
-		var new_card_btn = getNewCardBtn(reminder_card_btns, reminder_card_btn, notRemembered_btn);
-		reminder_card_btn = replaceWithNewCardBtnInDiv(doc, reminder_card_btn, new_card_btn, br);
-
-		if (reminder_card_btn == null) {
-			doc.removeChild(notRemembered_btn);
-			doc.removeChild(isRemembered_btn);
-	   		$('#myModal').modal('hide');
-			window.location.replace("{% url 'categories:detail' category_id %}")
-		}
-	}	
-
 }
+
 </script>
