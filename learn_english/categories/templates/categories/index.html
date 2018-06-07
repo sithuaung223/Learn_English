@@ -8,7 +8,9 @@
 	{% if category_list %}
 	  {% for category in category_list %}
 	      // <a href="/categories/{{ category.id }}">{{category.name}}</a> 
-		var category = createCategoryBoxWithText({{category.id}}, "{% url 'categories:reminder' category.id %}","{{category.name}}");
+		var category = createCategoryBoxWithText({{category.id}}, 
+												"{% url 'categories:reminder' category.id %}",
+												"{{category.name}}");
 		div.appendChild(category);
 	  {% endfor %}
 	{% endif %}
